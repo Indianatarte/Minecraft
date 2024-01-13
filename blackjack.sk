@@ -1,0 +1,45 @@
+function blackjack(p: player, phand: text):
+	
+	while true:
+		set {_card} to choosecard()
+		if {_%{_card}%} is set:
+			if {_%{_card}%} < 6:
+				add 1 to {_%{_card}%}
+				stop loop
+		else:
+			set {_%{_card}%} to 1
+			stop loop
+	
+	set {_item} to pickaxe
+	set id of {_item} to 6872
+	
+	create a gui with virtual chest inventory named "&3&lBlackJack" with 6 rows:
+		loop 54 times:
+			set {_slot} to loop-value -1
+			if mod(loop-value,2) is 1:
+				make gui slot {_slot} to red glass pane
+			else:
+				make gui slot {_slot} to black glass pane
+
+		make gui slot 4 to {_item} named "%{_card}%"
+		make gui slot 6 to black wool named "Hidden Card"
+
+		if size of {_phand::*} < 6:
+			make gui slot 20 to green wool name "&2&l&oPiocher":
+				add choosecard() to {_phand::*}
+				blackjack({_p}, {_phand::*})
+
+		make gui slot 20 to green wool name "&2&l&oStay"
+
+		make gui slot 22 to yellow wool name "&e&l&oDoubler"
+
+		make gui slot 22 to yellow wool name "&e&l&oSplit"
+
+
+		set {_slot} to 37
+		loop {_phand::*}:
+			make gui slot {_slot} to paper name loop-value
+			add 1 to {_slot}
+			if {_slot} is 40:
+				set {_slot} to 46
+	open last gui for {_p}

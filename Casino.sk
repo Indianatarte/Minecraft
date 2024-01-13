@@ -1,0 +1,690 @@
+#{Base:20.0d,Name:"generic.maxHealth"}
+on right click on entity:
+	if name of event-entity is "Augustin":
+		if id of player's tool isn't 4826:
+			cancel event
+			openaugustin(player)
+
+function openaugustin(p: player):
+	set {_count} to npchealth("Augustin",0)
+	create a gui with virtual chest inventory named "&1&lATM du Casino" with 1 rows:
+		make gui slot 4 to emerald named "&1&lCoffre Fort du casino"
+		make gui slot 0 to green wool named "&2&lDéposer des Dias":
+			depositnpc({_p},"Augustin")
+		make gui slot 2 to green wool named "&2&lDéposer des Tokens":
+			deposittoken({_p},"Augustin")
+		make gui slot 6 to red wool named "&4&lRetirer des Dias":
+			withdrawnpc({_p},"Augustin")
+		make gui slot 8 to red wool named "&4&lRetirer des Tokens":
+			withdrawtoken({_p},"Augustin")
+	open last gui for {_p}
+
+function deposittoken(p: player,name: text):
+	set {_count} to floor(npchealth({_name},0) / 5)
+
+	set {_token} to pickaxe
+	set id of {_token} to 5321
+	set name of {_token} to "&6&lToken"
+
+	create a gui with virtual chest inventory named "&1&lATM&f> Déposer [&l&6%{_count}% Token&f]" with 2 rows:
+
+		make gui slot 1 to emerald block named "&1&lDépot" with lore "Déposer 1 Token":
+			set {_diasowned} to amount of {_token} in inventory of {_p}
+			if {_diasowned} > 0:
+				remove 1 of {_token} from inventory of {_p}
+				npchealth({_name},5)
+				deposittoken({_p},{_name})
+			else:
+				send "&4&l Vous ne possédez pas autant de tokens" to {_p}
+
+		make gui slot 11 to emerald block named "&1&lDépot" with lore "Déposer 2 Tokens":
+			set {_diasowned} to amount of {_token} in inventory of {_p}
+			if {_diasowned} > 1:
+				remove 2 of {_token} from inventory of {_p}
+				npchealth({_name},10)
+				deposittoken({_p},{_name})
+			else:
+				send "&4&l Vous ne possédez pas autant de tokens" to {_p}
+
+		make gui slot 3 to emerald block named "&1&lDépot" with lore "Déposer 4 Tokens":
+			set {_diasowned} to amount of {_token} in inventory of {_p}
+			if {_diasowned} > 3:
+				remove 4 of {_token} from inventory of {_p}
+				npchealth({_name},20)
+				deposittoken({_p},{_name})
+			else:
+				send "&4&l Vous ne possédez pas autant de tokens" to {_p}
+			
+		make gui slot 14 to emerald block named "&1&lDépot" with lore "Déposer 16 Tokens":
+			set {_diasowned} to amount of {_token} in inventory of {_p}
+			if {_diasowned} > 15:
+				remove 16 of {_token} from inventory of {_p}
+				npchealth({_name},80)
+				deposittoken({_p},{_name})
+			else:
+				send "&4&l Vous ne possédez pas autant de tokens" to {_p}
+
+		make gui slot 6 to emerald block named "&1&lDépot" with lore "Déposer 32 Tokens":
+			set {_diasowned} to amount of {_token} in inventory of {_p}
+			if {_diasowned} > 31:
+				remove 32 of {_token} from inventory of {_p}
+				npchealth({_name},160)
+				deposittoken({_p},{_name})
+			else:
+				send "&4&l Vous ne possédez pas autant de tokens" to {_p}
+
+		make gui slot 16 to emerald block named "&1&lDépot" with lore "Déposer 64 Tokens":
+			set {_diasowned} to amount of {_token} in inventory of {_p}
+			if {_diasowned} > 63:
+				remove 64 of {_token} from inventory of {_p}
+				npchealth({_name},320)
+				deposittoken({_p},{_name})
+			else:
+				send "&4&l Vous ne possédez pas autant de tokens" to {_p}
+
+	open last gui for {_p}
+
+function withdrawtoken(p: player,name: text):
+	set {_count} to floor(npchealth({_name},0) / 5)
+
+	set {_token} to pickaxe
+	set id of {_token} to 5321
+	set name of {_token} to "&6&lToken"
+
+	create a gui with virtual chest inventory named "&1&lATM&f> Retrait [&l&6%{_count}% Tokens&f]" with 2 rows:
+
+		make gui slot 1 to emerald block named "&1&lRetrait" with lore "Retirer 1 Token":
+			if {_count} >= 1:
+				if havespace({_p},id of {_token},"&6&lToken") > 0:
+					npchealth({_name},-5)
+
+					give 1 of {_token} to player
+					withdrawtoken({_p},{_name})
+				else:
+					send "&4&l Vous n'avez pas assez de place pour recevoir ce token" to {_p}
+			else:
+				send "&4&l Il n'y a pas assez de tokens sur le compte" to {_p}
+
+		make gui slot 11 to emerald block named "&1&lRetrait" with lore "Retirer 2 Tokens":
+			if {_count} >= 2:
+				if havespace({_p},id of {_token},"&6&lToken") > 1:
+					npchealth({_name},-10)
+						
+					give 2 of {_token} to player
+					withdrawtoken({_p},{_name})
+				else:
+					send "&4&l Vous n'avez pas assez de place pour recevoir ces tokens" to {_p}
+			else:
+				send "&4&l Il n'y a pas assez de tokens sur le compte" to {_p}
+
+		make gui slot 3 to emerald block named "&1&lRetrait" with lore "Retirer 4 Tokens":
+			if {_count} >= 4:
+				if havespace({_p},id of {_token},"&6&lToken") > 3:
+					npchealth({_name},-20)
+						
+					give 4 of {_token} to player
+					withdrawtoken({_p},{_name})
+				else:
+					send "&4&l Vous n'avez pas assez de place pour recevoir ces tokens" to {_p}
+			else:
+				send "&4&l Il n'y a pas assez de tokens sur le compte" to {_p}
+			
+		make gui slot 14 to emerald block named "&1&lRetrait" with lore "Retirer 16 Tokens":
+			if {_count} >= 16:
+				if havespace({_p},id of {_token},"&6&lToken") > 15:
+					npchealth({_name},-80)
+						
+					give 16 of {_token} to player
+					withdrawtoken({_p},{_name})
+				else:
+					send "&4&l Vous n'avez pas assez de place pour recevoir ces tokens" to {_p}
+			else:
+				send "&4&l Il n'y a pas assez de tokens sur le compte" to {_p}
+
+		make gui slot 6 to emerald block named "&1&lRetrait" with lore "Retirer 32 Tokens":
+			if {_count} >= 32:
+				if havespace({_p},id of {_token},"&6&lToken") > 31:
+					npchealth({_name},-160)
+						
+					give 32 of {_token} to player
+					withdrawtoken({_p},{_name})
+				else:
+					send "&4&l Vous n'avez pas assez de place pour recevoir ces tokens" to {_p}
+			else:
+				send "&4&l Il n'y a pas assez de tokens sur le compte" to {_p}
+
+		make gui slot 16 to emerald block named "&1&lRetrait" with lore "Retirer 64 Tokens":
+			
+			if {_count} >= 64:
+				if havespace({_p},id of {_token},"&6&lToken") > 63:
+					npchealth({_name},-320)
+						
+					give 64 of {_token} to player
+					withdrawtoken({_p},{_name})
+				else:
+					send "&4&l Vous n'avez pas assez de place pour recevoir ces tokens" to {_p}
+			else:
+				send "&4&l Il n'y a pas assez de tokens sur le compte" to {_p}
+
+	open last gui for {_p}
+
+function withdrawnpc(p: player,name: text):
+	set {_count} to npchealth({_name},0)
+
+	set {_dias1} to pickaxe
+	set id of {_dias1} to 6394
+	set name of {_dias1} to "&6&l1 Dias"
+	set {_dias5} to pickaxe
+	set id of {_dias5} to 6402
+	set name of {_dias5} to "&6&l5 Dias"
+	set {_dias10} to pickaxe
+	set id of {_dias10} to 6397
+	set name of {_dias10} to "&6&l10 Dias"
+	set {_dias20} to pickaxe
+	set id of {_dias20} to 6393
+	set name of {_dias20} to "&6&l20 Dias"
+	set {_dias50} to pickaxe
+	set id of {_dias50} to 6398
+	set name of {_dias50} to "&6&l50 Dias"
+	set {_dias100} to pickaxe
+	set id of {_dias100} to 6392
+	set name of {_dias100} to "&6&l100 Dias"
+
+	create a gui with virtual chest inventory named "&1&lATM&f> Retrait [&l&6%{_count}% Dias&f]" with 2 rows:
+
+		make gui slot 1 to emerald block named "&1&lRetrait" with lore "Retirer 1 Dias":
+			if {_count} >= 1:
+				if havespace({_p},id of {_dias1},"&6&l1 Dias") > 0:
+					npchealth({_name},-1)
+
+					give 1 of {_dias1} to player
+					withdrawnpc({_p},{_name})
+				else:
+					send "&4&l Vous n'avez pas assez de place pour recevoir ce billet" to {_p}
+			else:
+				send "&4&l Il n'y a pas assez de Dias sur le compte" to {_p}
+
+		make gui slot 11 to emerald block named "&1&lRetrait" with lore "Retirer 5 Dias":
+			if {_count} >= 5:
+				if havespace({_p},id of {_dias5},"&6&l5 Dias") > 0:
+					npchealth({_name},-5)
+						
+					give 1 of {_dias5} to player
+					withdrawnpc({_p},{_name})
+				else:
+					send "&4&l Vous n'avez pas assez de place pour recevoir ce billet" to {_p}
+			else:
+				send "&4&l Il n'y a pas assez de Dias sur le compte" to {_p}
+
+		make gui slot 3 to emerald block named "&1&lRetrait" with lore "Retirer 10 Dias":
+			if {_count} >= 10:
+				if havespace({_p},id of {_dias10},"&6&l10 Dias") > 0:
+					npchealth({_name},-10)
+						
+					give 1 of {_dias10} to player
+					withdrawnpc({_p},{_name})
+				else:
+					send "&4&l Vous n'avez pas assez de place pour recevoir ce billet" to {_p}
+			else:
+				send "&4&l Il n'y a pas assez de Dias sur le compte" to {_p}
+			
+		make gui slot 14 to emerald block named "&1&lRetrait" with lore "Retirer 20 Dias":
+			if {_count} >= 20:
+				if havespace({_p},id of {_dias20},"&6&l20 Dias") > 0:
+					npchealth({_name},-20)
+						
+					give 1 of {_dias20} to player
+					withdrawnpc({_p},{_name})
+				else:
+					send "&4&l Vous n'avez pas assez de place pour recevoir ce billet" to {_p}
+			else:
+				send "&4&l Il n'y a pas assez de Dias sur le compte" to {_p}
+
+		make gui slot 6 to emerald block named "&1&lRetrait" with lore "Retirer 50 Dias":
+			if {_count} >= 50:
+				if havespace({_p},id of {_dias50},"&6&l50 Dias") > 0:
+					npchealth({_name},-50)
+						
+					give 1 of {_dias50} to player
+					withdrawnpc({_p},{_name})
+				else:
+					send "&4&l Vous n'avez pas assez de place pour recevoir ce billet" to {_p}
+			else:
+				send "&4&l Il n'y a pas assez de Dias sur le compte" to {_p}
+
+		make gui slot 16 to emerald block named "&1&lRetrait" with lore "Retirer 100 Dias":
+			
+			if {_count} >= 100:
+				if havespace({_p},id of {_dias100},"&6&l100 Dias") > 0:
+					npchealth({_name},-100)
+						
+					give 1 of {_dias100} to player
+					withdrawnpc({_p},{_name})
+				else:
+					send "&4&l Vous n'avez pas assez de place pour recevoir ce billet" to {_p}
+			else:
+				send "&4&l Il n'y a pas assez de Dias sur le compte" to {_p}
+
+	open last gui for {_p}
+
+function depositnpc(p: player,name: text):
+	set {_dias1} to pickaxe
+	set id of {_dias1} to 6394
+	set name of {_dias1} to "&6&l1 Dias"
+	set {_dias5} to pickaxe
+	set id of {_dias5} to 6402
+	set name of {_dias5} to "&6&l5 Dias"
+	set {_dias10} to pickaxe
+	set id of {_dias10} to 6397
+	set name of {_dias10} to "&6&l10 Dias"
+	set {_dias20} to pickaxe
+	set id of {_dias20} to 6393
+	set name of {_dias20} to "&6&l20 Dias"
+	set {_dias50} to pickaxe
+	set id of {_dias50} to 6398
+	set name of {_dias50} to "&6&l50 Dias"
+	set {_dias100} to pickaxe
+	set id of {_dias100} to 6392
+	set name of {_dias100} to "&6&l100 Dias"
+
+	set {_count} to npchealth({_name},0)
+	create a gui with virtual chest inventory named "&1&lATM&f> Déposer [&l&6%{_count}% Dias&f]" with 2 rows:
+
+		make gui slot 1 to emerald block named "&1&lDépot" with lore "Déposer 1 Dias":
+			set {_diasowned} to amount of {_dias1} in inventory of {_p}
+			if {_diasowned} > 0:
+				remove 1 of {_dias1} from inventory of {_p}
+				npchealth({_name},1)
+				depositnpc({_p},{_name})
+			else:
+				send "&4&l Vous ne possédez pas de billet de 1 Dias" to {_p}
+
+		make gui slot 11 to emerald block named "&1&lDépot" with lore "Déposer 5 Dias":
+			set {_diasowned} to amount of {_dias5} in inventory of {_p}
+			if {_diasowned} > 0:
+				remove 1 of {_dias5} from inventory of {_p}
+				npchealth({_name},5)
+				depositnpc({_p},{_name})
+			else:
+				send "&4&l Vous ne possédez pas de billet de 5 Dias" to {_p}
+
+		make gui slot 3 to emerald block named "&1&lDépot" with lore "Déposer 10 Dias":
+			set {_diasowned} to amount of {_dias10} in inventory of {_p}
+			if {_diasowned} > 0:
+				remove 1 of {_dias10} from inventory of {_p}
+				npchealth({_name},10)
+				depositnpc({_p},{_name})
+			else:
+				send "&4&l Vous ne possédez pas de billet de 10 Dias" to {_p}
+			
+		make gui slot 14 to emerald block named "&1&lDépot" with lore "Déposer 20 Dias":
+			set {_diasowned} to amount of {_dias20} in inventory of {_p}
+			if {_diasowned} > 0:
+				remove 1 of {_dias20} from inventory of {_p}
+				npchealth({_name},20)
+				depositnpc({_p},{_name})
+			else:
+				send "&4&l Vous ne possédez pas de billet de 20 Dias" to {_p}
+
+		make gui slot 6 to emerald block named "&1&lDépot" with lore "Déposer 50 Dias":
+			set {_diasowned} to amount of {_dias50} in inventory of {_p}
+			if {_diasowned} > 0:
+				remove 1 of {_dias50} from inventory of {_p}
+				npchealth({_name},50)
+				depositnpc({_p},{_name})
+			else:
+				send "&4&l Vous ne possédez pas de billet de 50 Dias" to {_p}
+
+		make gui slot 16 to emerald block named "&1&lDépot" with lore "Déposer 100 Dias":
+			set {_diasowned} to amount of {_dias100} in inventory of {_p}
+			if {_diasowned} > 0:
+				remove 1 of {_dias100} from inventory of {_p}
+				npchealth({_name},100)
+				depositnpc({_p},{_name})
+			else:
+				send "&4&l Vous ne possédez pas de billet de 100 Dias" to {_p}
+
+	open last gui for {_p}
+		
+function npchealth(name: text,add: number) :: number:
+	loop all entities:
+		if name of loop-entity is {_name}:
+			set {_nbt} to nbt of loop-entity
+			set {_firstsplit::*} to {_nbt} split by "{"
+			set {_number} to ""
+			set {_veriffirstfind} to false
+			if {_nbt} contain "generic.maxHealth":
+				loop {_firstsplit::*}:
+					if loop-value-2 contain "generic.maxHealth":
+						set {_health} to loop-value-2
+						set {_lasthealth} to loop-value-2
+						set {_health::*} to {_health} split by ""
+						loop {_health::*}:
+							set {_testfor} to loop-value-3 parsed as number
+							if {_testfor} is number:
+								set {_number} to "%{_number}%%{_testfor}%"
+								set {_veriffirstfind} to true
+							else if {_veriffirstfind} is true:
+								stop loop
+							
+						set {_addednumber} to {_number} parsed as number + {_add}
+						replace "%{_number}%" in {_health} with "%{_addednumber}%"
+						replace "%{_lasthealth}%" in {_nbt} with "%{_health}%"
+						set nbt of loop-entity to {_nbt}
+						stop loop
+				return {_addednumber}
+				stop loop
+			
+
+function openchoosecard(p: player, i: item):
+	set {_family::*} to "Piques" and "Carreaux" and "Trèfles" and "Coeurs"
+	set {_card::*} to "2" and "3" and "4" and "5" and "6" and "7" and "8" and "9" and "10" and "Valet" and "Dame" and "Roi" and "As"
+	set {_count} to 0
+	set {_choosingcard} to choosecard()
+	create a gui with virtual chest inventory named "&3&lDeviner une Carte" with 6 rows:
+		loop {_family::*}:
+			loop {_card::*}:
+				set {_cardname} to "%loop-value-2% de %loop-value-1%"
+				add 1 to {_count}
+				if {_count} > 39:
+					make gui slot {_count} to red glass pane named "%{_cardname}%":
+						set {_selectedcard} to name of event-slot
+						if {_choosingcard} is {_selectedcard}:
+							send "&l&o&2[WIN] &fVous avez Gagné!" to {_p}
+							give 60 of {_i} to {_p}
+							npchealth("Augustin",-300)
+							close inventory to {_p}
+						else if {_choosingcard} contain "Dame":
+							send "&l&o&4[LOOSE] &fVous avez Perdu!" to {_p}
+							send "&fLa carte tirée était la %{_choosingcard}%!" to {_p}
+						else if {_choosingcard} contain "AS":
+							send "&l&o&4[LOOSE] &fVous avez Perdu!" to {_p}
+							send "&fLa carte tirée était l'%{_choosingcard}%!" to {_p}
+						else:
+							send "&l&o&4[LOOSE] &fVous avez Perdu!" to {_p}
+							send "&fLa carte tirée était le %{_choosingcard}%!" to {_p}
+						close inventory to {_p}
+				else if {_count} > 26:
+					make gui slot {_count} to black glass pane named "%{_cardname}%":
+						set {_selectedcard} to name of event-slot
+						if {_choosingcard} is {_selectedcard}:
+							send "&l&o&2[WIN] &fVous avez Gagné!" to {_p}
+							give 60 of {_i} to {_p}
+							npchealth("Augustin",-300)
+							close inventory to {_p}
+						else if {_choosingcard} contain "Dame":
+							send "&l&o&4[LOOSE] &fVous avez Perdu!" to {_p}
+							send "&fLa carte tirée était la %{_choosingcard}%!" to {_p}
+						else if {_choosingcard} contain "AS":
+							send "&l&o&4[LOOSE] &fVous avez Perdu!" to {_p}
+							send "&fLa carte tirée était l'%{_choosingcard}%!" to {_p}
+						else:
+							send "&l&o&4[LOOSE] &fVous avez Perdu!" to {_p}
+							send "&fLa carte tirée était le %{_choosingcard}%!" to {_p}
+						close inventory to {_p}
+				else if {_count} > 13:
+					make gui slot {_count} to red glass pane named "%{_cardname}%":
+						set {_selectedcard} to name of event-slot
+						if {_choosingcard} is {_selectedcard}:
+							send "&l&o&2[WIN] &fVous avez Gagné!" to {_p}
+							give 60 of {_i} to {_p}
+							npchealth("Augustin",-300)
+							close inventory to {_p}
+						else if {_choosingcard} contain "Dame":
+							send "&l&o&4[LOOSE] &fVous avez Perdu!" to {_p}
+							send "&fLa carte tirée était la %{_choosingcard}%!" to {_p}
+						else if {_choosingcard} contain "AS":
+							send "&l&o&4[LOOSE] &fVous avez Perdu!" to {_p}
+							send "&fLa carte tirée était l'%{_choosingcard}%!" to {_p}
+						else:
+							send "&l&o&4[LOOSE] &fVous avez Perdu!" to {_p}
+							send "&fLa carte tirée était le %{_choosingcard}%!" to {_p}
+						close inventory to {_p}
+				else:
+					make gui slot {_count} to black glass pane named "%{_cardname}%":
+						set {_selectedcard} to name of event-slot
+						if {_choosingcard} is {_selectedcard}:
+							send "&l&o&2[WIN] &fVous avez Gagné!" to {_p}
+							give 60 of {_i} to {_p}
+							npchealth("Augustin",-300)
+							close inventory to {_p}
+						else if {_choosingcard} contain "Dame":
+							send "&l&o&4[LOOSE] &fVous avez Perdu!" to {_p}
+							send "&fLa carte tirée était la %{_choosingcard}%!" to {_p}
+						else if {_choosingcard} contain "AS":
+							send "&l&o&4[LOOSE] &fVous avez Perdu!" to {_p}
+							send "&fLa carte tirée était l'%{_choosingcard}%!" to {_p}
+						else:
+							send "&l&o&4[LOOSE] &fVous avez Perdu!" to {_p}
+							send "&fLa carte tirée était le %{_choosingcard}%!" to {_p}
+						close inventory to {_p}
+	
+	open last gui for {_p}
+
+function choosecard() :: text:
+	set {_family::*} to "Piques" and "Carreaux" and "Trèfles" and "Coeurs"
+	set {_card::*} to "2" and "3" and "4" and "5" and "6" and "7" and "8" and "9" and "10" and "Valet" and "Dame" and "Roi" and "As"
+	set {_number} to random integer between 1 and 4
+	set {_famille} to {_family::%{_number}%}
+	set {_number} to random integer between 1 and 13
+	set {_carte} to {_card::%{_number}%}
+	set {_lacarte} to "%{_carte}% de %{_famille}%"
+	return "%{_carte}% de %{_famille}%"
+
+command /token:
+	trigger:
+		if player has permission "desta.modo":
+			set {_item} to pickaxe
+			set id of {_item} to 5321
+			set name of {_item} to "&6&lToken"
+			give 1 of {_item} to player
+
+
+function havespace(p: player,id: number,nom: text="azertyuiop") :: number:
+	set {_fullslot} to 0
+	set {_count} to 0
+	loop {_p}'s inventory:
+		add 1 to {_fullslot}
+		if {_nom} isn't "azertyuiop":
+			if name of loop-value is {_nom}:
+				if id of loop-value is {_id}:
+					set {_firstcharacter::*} to "%loop-value%" split by " "
+					set {_first} to "%{_firstcharacter::1}%" parsed as number
+					if {_first} is number:
+						add 64-{_first} to {_count}
+					else:
+						add 63 to {_count}
+
+		else:
+			if id of loop-value is {_id}:
+				set {_firstcharacter::*} to "%loop-value%" split by " "
+				set {_first} to "%{_firstcharacter::1}%" parsed as number
+				if {_first} is number:
+					add 64-{_first} to {_count}
+				else:
+					add 63 to {_count}
+		
+	set {_emptyslot} to 36-{_fullslot}
+	add 64*{_emptyslot} to {_count}
+	return {_count}
+
+function openjackpot(p: player):
+	set {_item} to pickaxe
+	set metadata value "slot11" of {_p} to " "
+	set metadata value "slot13" of {_p} to " "
+	set metadata value "slot15" of {_p} to " "
+	set {_i} to {_item}
+	set id of {_i} to 5321
+	set name of {_i} to "&6&lToken"
+
+	set {_goldingot} to {_item}
+	set id of {_goldingot} to 266
+
+	set {_diamond} to {_item}
+	set id of {_diamond} to 264
+
+	set {_emerald} to {_item}
+	set id of {_emerald} to 388
+	
+	set {_netherite} to {_item}
+	set id of {_netherite} to 7038
+
+	set {_coal} to {_item}
+	set id of {_coal} to 263
+
+	set {_ironingot} to {_item}
+	set id of {_ironingot} to 265
+
+	set {_redstone} to {_item}
+	set id of {_redstone} to 331
+
+	set {_lapis} to yellow glass pane
+	set id of {_lapis} to 351
+
+	set {_family::*} to {_goldingot}, {_diamond}, {_emerald}, {_netherite}, {_coal}, {_ironingot}, {_redstone} and {_lapis}
+
+
+	set {_icon::*} to gold ingot 
+	create a gui with virtual chest inventory named "&3&lJackPot" with 3 rows:
+		loop 27 times:
+			set {_slot} to loop-value -1
+			if mod(loop-value,2) is 1:
+				make gui slot {_slot} to red glass pane
+			else:
+				make gui slot {_slot} to black glass pane
+
+		make gui slot 11 to white glass pane:
+			set {_randomIndex} to random integer between 1 and size of {_family::*}
+			set {_slot11} to {_family::%{_randomIndex}%}
+			set metadata value "slot11" of {_p} to {_slot11}
+			make gui slot 11 to {_slot11}
+			if metadata value "slot13" of {_p} isn't " ":
+				if metadata value "slot15" of {_p} isn't " ":
+					if metadata value "slot11" of {_p} is metadata value "slot13" of {_p}:
+						if metadata value "slot13" of {_p} is  metadata value "slot15" of {_p}:
+							send "&l&o&2[WIN] &fVous avez Gagné!" to {_p}
+							give 800 of {_i} to {_p}
+							npchealth("Augustin",-4000)
+							wait 1 second
+							close inventory to {_p}
+							set metadata value "openjackpot" of {_p} to false
+						else:
+							set {_loose} to true
+					else:
+						set {_loose} to true
+
+					if {_loose} is true:
+						send "&l&o&4[Loose] &fVous avez Perdu..." to {_p}
+						wait 1 second
+						close inventory to {_p}
+						set metadata value "openjackpot" of {_p} to false
+
+
+		make gui slot 13 to white glass pane:
+			set {_randomIndex} to random integer between 1 and size of {_family::*}
+			set {_slot13} to {_family::%{_randomIndex}%}
+			make gui slot 13 to {_slot13}
+			set metadata value "slot13" of {_p} to {_slot13}
+			if metadata value "slot11" of {_p} isn't " ":
+				if metadata value "slot15" of {_p} isn't " ":
+					if metadata value "slot11" of {_p} is metadata value "slot13" of {_p}:
+						if metadata value "slot13" of {_p} is  metadata value "slot15" of {_p}:
+							send "&l&o&2[WIN] &fVous avez Gagné!" to {_p}
+							give 800 of {_i} to {_p}
+							npchealth("Augustin",-4000)
+							wait 1 second
+							close inventory to {_p}
+							set metadata value "openjackpot" of {_p} to false
+						else:
+							set {_loose} to true
+					else:
+						set {_loose} to true
+
+					if {_loose} is true:
+						send "&l&o&4[Loose] &fVous avez Perdu..." to {_p}
+						wait 1 second
+						close inventory to {_p}
+						set metadata value "openjackpot" of {_p} to false
+
+		make gui slot 15 to white glass pane:
+			set {_randomIndex} to random integer between 1 and size of {_family::*}
+			set {_slot15} to {_family::%{_randomIndex}%}
+			make gui slot 15 to {_slot15}
+			set metadata value "slot15" of {_p} to {_slot15}
+			if metadata value "slot13" of {_p} isn't " ":
+				if metadata value "slot11" of {_p} isn't " ":
+					if metadata value "slot11" of {_p} is metadata value "slot13" of {_p}:
+						if metadata value "slot13" of {_p} is  metadata value "slot15" of {_p}:
+							send "&l&o&2[WIN] &fVous avez Gagné!" to {_p}
+							give 800 of {_i} to {_p}
+							npchealth("Augustin",-4000)
+							wait 1 second
+							close inventory to {_p}
+							set metadata value "openjackpot" of {_p} to false
+						else:
+							set {_loose} to true
+					else:
+						set {_loose} to true
+
+					if {_loose} is true:
+						send "&l&o&4[Loose] &fVous avez Perdu..." to {_p}
+						wait 1 second
+						close inventory to {_p}
+						set metadata value "openjackpot" of {_p} to false
+
+	open last gui for {_p}
+	
+on right click:	
+	if id of event-block is 6858:
+		cancel event
+		if name of player's tool is "&6&lToken":
+			set {_item} to player's tool
+			set {_test} to havespace(player,5321,"&6&lToken")
+			if {_test} > 397:
+				loop all players:
+					if metadata value "openjackpot" of loop-player is true:
+						set metadata value "isoccup" of player to true
+				if metadata value "isoccup" of player is true:
+					send "&4 Le JackPot est déjà occupé" to player
+					set metadata value "isoccup" of player to false
+				else:
+					remove 2 of {_item} from inventory of player
+					npchealth("Augustin",10)
+					openjackpot(player)
+					set metadata value "openjackpot" of player to true
+			else:
+				send "&4&l[ERROR] &f Vos poches sont pleines!" to player
+		else:
+			send "&4&l[ERROR] &f Veuillez insérer 2 &6&lTokens &fdans la machine!" to player
+
+on inventory close :
+	set metadata value "openjackpot" of player to false
+
+on right click:
+	if id of event-block is 4916:
+		create a gui with virtual chest inventory named "&1&lATM du Casino" with 5 rows:
+			make gui slot 11 to green wool named "&2&lDeviner une Carte":
+				loop inventory of player:
+					if name of loop-value is "&6&lToken":
+						set {_verif} to true
+						set {_item} to loop-value
+				
+				if {_verif} is true:
+					if amount of {_item} in inventory of player > 1:
+						set {_item} to {_item}
+						set {_test} to havespace(player,5321,"&6&lToken")
+						if {_test} > 57:
+							remove 2 of {_item} from inventory of player
+							npchealth("Augustin",10)
+							openchoosecard(player,{_item})
+						else:
+							send "&4&l[ERROR] &f Vos poches sont pleines!" to player
+					else:
+						send "&4&l[ERROR] &f Veuillez insérer 2 &6&lTokens &fdans la machine!" to player
+
+			make gui slot 13 to red wool named "&4&lPas d'idée"
+			make gui slot 15 to red wool named "&4&lPas d'idée"
+			make gui slot 29 to red wool named "&4&lPas d'idée"
+			make gui slot 31 to red wool named "&4&lPas d'idée"
+			make gui slot 33 to red wool named "&4&lPas d'idée"
+		open last gui for player

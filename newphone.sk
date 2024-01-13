@@ -1,0 +1,290 @@
+options:
+	contact_limit: 100
+
+# Contacts -> rename -> renommer le contact
+#numbers::UUID::contact::<pseudo du joueur via son uuid>::name
+#numbers::UUID::contact::<joueur dans les contacts du joueur(UUID)>::number
+#numbers::0695752874::contact::indianatarte680::0695747082
+#numbers::0695752874::contact::indianatarte680::test
+#[0659747082[],0685875715[]]
+
+command /delallnumbers:
+	trigger:
+		if player has permission "desta.admin":
+			delete {numbers::*}
+		
+command /sms [<text>]:
+	trigger:
+		if name of player's tool is "&6&lNoclap3310":
+			set {_verif} to true
+		else if name of player's tool is "&6&lSamsong":
+			set {_verif} to true
+		else if name of player's tool is "&6&lE-phone":
+			set {_verif} to true
+		if {_verif} is true:
+			if {numbers::%player's uuid%} is set:
+				if {selectedContact::%player's uuid%} is set:
+					if {selectedContact::%player's uuid%} is online:
+						if arg 1 is set:
+							set {_playerName} to {numbers::%player's uuid%}
+							set {_contactName} to {numbers::%{selectedContact::%player's uuid%}'s uuid%}
+							loop {numbers::%{selectedContact::%player's uuid%}'s uuid%::contact::*}:
+								if loop-value is player:
+									set {_playerName} to {numbers::%{selectedContact::%player's uuid%}'s uuid%::contact::%loop-index%::name}
+
+							loop {numbers::%player's uuid%::contact::*}:
+								if loop-value is {selectedContact::%player's uuid%}:
+									set {_contactName} to {numbers::%player's uuid%::contact::%loop-index%::name}
+
+							send "&7[&bSMS&7] &l&f[%{_playerName}% &l&4➜ &l&fMoi] &f%arg 1%" to {selectedContact::%player's uuid%}
+							send "&7[&bSMS&7] &l&f[Moi&7 &l&4➜ &l&f%{_contactName}%] &f%arg 1%" to player
+						else:
+							send "&7[&bSMS&7] &cEntrer votre message"
+					else:
+						send "&7[&bSMS&7] &cCette personne n'a pas son portable allumé"
+				else:
+					send "&7[&bSMS&7] &cSelectionner un contact"
+			else:
+				send "&7[&bSMS&7] &cVous n'avez pas de portable"
+		else:
+			send "&7[&bSMS&7] &cPrenez votre protable en main"
+
+function confirmRemove(p: player, index: text, contact : offlineplayer):
+	create a gui with virtual chest inventory with 1 rows named "%name of {_p}'s tool% &f> Supprimer ":
+		make gui slot 2 to green wool named "&aConfirmer":
+			delete {numbers::%{_p}'s uuid%::contact::%{_index}%::number}
+			delete {numbers::%{_p}'s uuid%::contact::%{_index}%::name}
+			delete {numbers::%{_p}'s uuid%::contact::%{_index}%}
+			if {_contact} is {selectedContact::%{_p}'s uuid%}:
+				delete {selectedContact::%{_p}'s uuid%}
+			showContacts({_p})
+
+		make gui slot 6 to red wool named "&cAnnuler":
+			showContacts({_p})
+	open last gui for {_p}
+	
+function showContacts(p: player):
+	create a gui with virtual chest inventory with 1 rows named "%name of {_p}'s tool% &f> Contacts ":
+		loop 9 times:
+			if loop-value < 2:
+				make gui slot loop-value to black glass pane named " "
+			else if loop-value > 6:
+				make gui slot loop-value to black glass pane named " "
+			else:
+				make gui slot loop-value to white glass pane named " "
+		if size of {numbers::%{_p}'s uuid%::contact::*} > 0:
+			set {_slot} to 2
+			loop {numbers::%{_p}'s uuid%::contact::*}:
+				set {_loop-value} to loop-value
+				set {_loop-index} to loop-index
+				set {_select_item} to loop-value's skull
+				if {_loop-value} is {selectedContact::%{_p}'s uuid%}:
+					set {_select_item} to emerald
+				make gui slot {_slot} to {_select_item} named "&f%{numbers::%{_p}'s uuid%::contact::%loop-index%::name}%" with lore "&5%{numbers::%{_p}'s uuid%::contact::%loop-index%::number}%" and " " and "&aClique gauche pour sélectionner" and "&cClique droit pour supprimer":
+					if click action is left mouse button:
+						set {selectedContact::%{_p}'s uuid%} to {_loop-value}
+						send "&6[Numbers] &aVous avez selectioné %{numbers::%{_p}'s uuid%::contact::% {_loop-index}%::name}%"
+						showContacts({_p})
+					else if click action is right mouse button:
+						confirmRemove({_p}, {_loop-index}, {_loop-value})
+				add 1 to {_slot}
+
+		make gui slot 0 to brick named "&fRetour":
+			openPhone({_p})
+	open last gui for {_p}
+
+command /addcontact <text> <text>:
+	usage: /addcontact <numéro> <nom du contact>
+	trigger:
+		if size of {numbers::%player's uuid%::contact::*} < {@contact_limit}:
+			loop {numbers::*}:
+				if loop-value is arg 1:
+					set {_contact} to loop-index parsed as offlineplayer
+
+			if {_contact} is not set:
+				send "&6[Numbers] &cCe numéro n'est pas atribué"
+				stop
+
+			loop {numbers::%player's uuid%::contact::*}:
+				if loop-value is {_contact}:
+					send "&6[Numbers] &cCe contact est déjà dans votre liste"
+					stop
+			
+			add {_contact} to {numbers::%player's uuid%::contact::*} 
+			loop {numbers::%player's uuid%::contact::*}:
+				if loop-value is {_contact}:
+					if arg 1 is set:
+						if arg 2 is set:
+							set {numbers::%player's uuid%::contact::%loop-index%::number} to arg 1
+							set {numbers::%player's uuid%::contact::%loop-index%::name} to arg 2
+						else:
+							send "&6[Numbers] &cVous devez spécifier un nom"
+					else:
+						send "&6[Numbers] &cVous devez spécifier un numéro"
+					exit loop
+			send "&6[Numbers] &aContact %arg 2% ajouté !"
+		else:
+			send "&6[Numbers] &cTu as trop de contact !"
+
+function numberExist(number: text) :: boolean:
+	loop {numbers::*}:
+		if loop-value is {_number}:
+			return true
+
+function generatePhoneNumber() :: text:
+	set {_number} to random integer between 10000000 and 99999999
+	while numberExist("06%{_number}%") is true:
+		set {_number} to random integer between 10000000 and 99999999
+
+	return "06%{_number}%"
+
+function openyellowpage(p: player,page: number):
+	create a gui with virtual chest inventory with 6 rows named "%name of {_p}'s tool% &f> Pages Jaunes ":
+		set {_slot} to 0
+		set {_count} to 1
+		if metadata value "yellowpage" of {_p} is not set :
+			set metadata value "yellowpage" of {_p} to false
+
+		loop all players:
+			if metadata value "yellowpage" of loop-player is true:
+				loop inventory of loop-player:
+					if id of loop-value-2 = 4544:
+						if name of loop-value-2 is "&6&lCarte d'Identité":
+							set {_idcard} to loop-value-2
+							set {_fistnames::*} to line 2 of lore of {_idcard} split by " "
+							set {_firstname} to "%3rd element out of {_fistnames::*}%"
+							set {_lastnames::*} to line 1 of lore of {_idcard} split by " "
+							set {_lastname} to "%3rd element out of {_lastnames::*}%"
+							set {_rpname} to "%{_firstname}% %{_lastname}%"
+				if {_slot} > 44:
+					set {_slot} to 0
+				set {_select_item} to book
+				set {_number} to {numbers::%UUID of loop-value-1%}
+				make gui slot {_slot} to {_select_item} named "&f%{_rpname}%" with lore "&5%{_number}%":
+					send "&l&eLe Numéro de &l&2%{_rpname}% &l&eest &l&4%{_number}%" to {_p}
+				add 1 to {_slot}
+				add 1 to {_count}
+				if {_count} > 45*{_page}:
+					stop loop
+
+		make gui slot 45 to brick named "&fRetour":
+			openPhone({_p})
+
+		if metadata value "yellowpage" of {_p} = false:
+			make gui slot 49 to red wool named "&fVerif" with lore "&4Votre Numéro n'apparait pas dans les &l&ePages Jaunes&4":
+				set metadata value "yellowpage" of {_p} to true
+				openyellowpage({_p},{_page})
+				
+
+		else if metadata value "yellowpage" of {_p} = true:
+			make gui slot 49 to green wool named "&fVerif" with lore "&2Votre Numéro apparait dans les &l&ePages Jaunes&2":
+				set metadata value "yellowpage" of {_p} to false
+				openyellowpage({_p},{_page})
+				
+		if size of {numbers::*} > 44:
+			make gui slot 53 to arrow named "&fsuivant":
+				openyellowpage({_p},{_page}+1)
+
+	open last gui for {_p}
+
+function openPhone(p: player):
+	if {numbers::%{_p}'s uuid%} is not set:
+		set {numbers::%{_p}'s uuid%} to generatePhoneNumber()
+		send "&6&l[PHONE] &r&6Your phone number is &e%{numbers::%{_p}'s uuid%}%" to {_p}
+		add {_p} to {%{numbers::%{_p}'s uuid%}%::*}
+	
+	create a gui with virtual chest inventory named "&6&lNoclap3310" with 3 rows:
+		set {_count} to {bank.%uuid of {_p}%}
+		loop 27 times:
+			make gui slot loop-value -1 to black glass pane named " "
+
+		make gui slot 1 to brick named "&l&o&fVotre Numéro: &4&o&l%{numbers::%{_p}'s uuid%}%":
+			send " &2Votre numéro de téléphone est : &4&o&l%{numbers::%{_p}'s uuid%}%" to player
+		make gui slot 9 to book named "&2&l&oContacts":
+			showContacts({_p})
+		make gui slot 12 to rail named "&5&l&oDuck":
+			openduck({_p})
+		make gui slot 14 to emerald block named "&6&l&oBanque : %{_count}%":
+			send "&2Vous possédez &f&l&o%{_count}% &2Dias sur votre compte en banque"
+		make gui slot 7 to map named "&e&l&oPages Jaunes":
+			openyellowpage({_p},1)
+		make gui slot 22 to barrier named "&4&l&oQuitter le téléphone":
+			close inventory to {_p}
+		make gui slot 17 to diamond named "&b&l&oCaracteristiques":
+			send "&3&lDescription :" to {_p}
+			send "&7&oUn téléphone franchement décalé, et vraiment très calé" to {_p}
+			send "&3&lCaractéristiques :" to {_p}
+			send "&5&lContacts max : &4&l100" to {_p}
+			send "___________________" to {_p}
+			send "- /addcontact <numéro> <nom du contact>" to {_p}
+			send "- /sms <message>" to {_p}
+	
+	open last gui for {_p}
+
+
+function openduck(p:player):
+	create a gui with virtual chest inventory named "&6&lDucks" with 2 rows:
+		set {_slot} to 2
+		loop {ducks::*}:
+			if {_slot} is 7:
+				set {_slot} to 11
+			set {_value} to loop-value
+			set {_split::*} to {_value} split by "NamePlayerDucks:"
+			set {_duck} to "%1st element out of {_split::*}%"
+			set {_rpname} to "%2nd element out of {_split::*}%"
+			set {_item} to paper named {_duck}
+			set line 1 of lore of {_item} to {_rpname}
+			make gui slot {_slot} to {_item}
+			add 1 to {_slot}
+
+	open last gui for {_p}
+
+command /duck <text>:
+	trigger:
+		loop inventory of player:
+			if id of loop-value = 4544:
+				if name of loop-value is "&6&lCarte d'Identité":
+					set {_idcard} to loop-value
+					set {_fistnames::*} to line 2 of lore of {_idcard} split by " "
+					set {_firstname} to "%3rd element out of {_fistnames::*}%"
+					set {_lastnames::*} to line 1 of lore of {_idcard} split by " "
+					set {_lastname} to "%3rd element out of {_lastnames::*}%"
+					set {_rpname} to "%{_firstname}% %{_lastname}%"
+		
+		set {_duck} to "%arg-1%NamePlayerDucks:%{_rpname}%"
+		add {_duck} to {_duck::*}
+		set {_count} to 0
+		loop {ducks::*}:
+			add 1 to {_count}
+			if {_count} < 10:
+				add loop-value to {_duck::*}
+		set {ducks::*} to {_duck::*}
+				
+		send arg-1 to player
+
+on rightclick:
+	if id of player's tool is 4520:
+		if name of player's tool is "&6&lE-phone":
+			openPhone(player)
+	else if id of player's tool is 4538:
+		if name of player's tool is "&6&lSamsong":
+			openPhone(player)
+	else if id of player's tool is 4838:
+		if name of player's tool is "&6&lNoclap3310":
+			openPhone(player)
+
+command /givephone <number>:
+	trigger:
+		if player has permission "desta.admin":
+			if arg-1 is 1:
+				give 1 of {noclap} named "&6&lNoclap3310" to player
+
+			else if arg-1 is 2:
+				give 1 of {samsong} named "&6&lSamsong" to player
+
+			else if arg-1 is 3:
+				give 1 of {e_phone} named "&6&lE-phone" to player
+	
+on quit:
+	set metadata value "yellowpage" of {_p} to false
+	remove {numbers::%{_p}'s uuid%} from {yellowpage::list::*}
