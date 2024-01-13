@@ -1,0 +1,440 @@
+on join:
+	if {bank.%uuid of player%} is not set:
+		set {bank.%uuid of player%} to 0
+
+on rightclick:
+	if id of the clicked block is 6400 :
+		cancel event
+		openbank(player)
+
+command /dias:
+	trigger:
+		if player has permission "desta.modo":
+			set {_dias001} to pickaxe
+			set id of {_dias001} to 6399
+			set name of {_dias001} to "&6&l0.01 Dias"
+			set {_dias005} to pickaxe
+			set id of {_dias005} to 6396
+			set name of {_dias005} to "&6&l0.05 Dias"
+			set {_dias010} to pickaxe
+			set id of {_dias010} to 6401
+			set name of {_dias010} to "&6&l0.10 Dias"
+			set {_dias025} to pickaxe
+			set id of {_dias025} to 6403
+			set name of {_dias025} to "&6&l0.25 Dias"
+			set {_dias1} to pickaxe
+			set id of {_dias1} to 6394
+			set name of {_dias1} to "&6&l1 Dias"
+			set {_dias5} to pickaxe
+			set id of {_dias5} to 6402
+			set name of {_dias5} to "&6&l5 Dias"
+			set {_dias10} to pickaxe
+			set id of {_dias10} to 6397
+			set name of {_dias10} to "&6&l10 Dias"
+			set {_dias20} to pickaxe
+			set id of {_dias20} to 6393
+			set name of {_dias20} to "&6&l20 Dias"
+			set {_dias50} to pickaxe
+			set id of {_dias50} to 6398
+			set name of {_dias50} to "&6&l50 Dias"
+			set {_dias100} to pickaxe
+			set id of {_dias100} to 6392
+			set name of {_dias100} to "&6&l100 Dias"
+			
+			give 1 of {dias001} to player
+			give 1 of {dias005} to player
+			give 1 of {dias010} to player
+			give 1 of {dias025} to player
+			give 1 of {dias1} to player
+			give 1 of {dias5} to player
+			give 1 of {dias10} to player
+			give 1 of {dias20} to player
+			give 1 of {dias50} to player
+			give 1 of {dias100} to player
+
+function deposit(p: player):
+	set {_count} to {bank.%uuid of {_p}%}
+	create a gui with virtual chest inventory named "&1&lATM&f> Déposer [&l&6%{_count}% Dias&f]" with 3 rows:
+
+		make gui slot 1 to emerald named "&1&lDépot" with lore "Déposer 0.01 Dias":
+			set {_diasowned} to 0
+			loop inventory of {_p}:
+				if id of loop-value is 6399:
+					if name of loop-value is "&6&l0.01 Dias":
+						set {_dias001} to loop-value
+						add 1 to {_diasowned}
+			if {_diasowned} > 0:
+				remove 1 of {_dias001} from inventory of {_p}
+				add 0.01 to {bank.%uuid of {_p}%}
+
+				deposit({_p})
+			else:
+				send "&4&l Vous ne possédez pas de pièce of 0.01 Dias" to {_p}
+
+		make gui slot 3 to emerald named "&1&lDépot" with lore "Déposer 0.05 Dias":
+			set {_diasowned} to 0
+			loop inventory of {_p}:
+				if id of loop-value is 6396:
+					if name of loop-value is "&6&l0.05 Dias":
+						set {_dias005} to loop-value
+						add 1 to {_diasowned}
+			if {_diasowned} > 0:
+				remove 1 of {_dias005} from inventory of {_p}
+				add 0.05 to {bank.%uuid of {_p}%}
+
+				deposit({_p})
+			else:
+				send "&4&l Vous ne possédez pas de pièce of 0.05 Dias" to {_p}
+
+		make gui slot 11 to emerald named "&1&lDépot" with lore "Déposer 0.10 Dias":
+			set {_diasowned} to 0
+			loop inventory of {_p}:
+				if id of loop-value is 6401:
+					if name of loop-value is "&6&l0.10 Dias":
+						set {_dias010} to loop-value
+						add 1 to {_diasowned}
+			if {_diasowned} > 0:
+				remove 1 of {_dias010} from inventory of {_p}
+				add 0.1 to {bank.%uuid of {_p}%}
+
+				deposit({_p})
+			else:
+				send "&4&l Vous ne possédez pas de pièce of 0.1 Dias" to {_p}
+
+		make gui slot 19 to emerald named "&1&lDépot" with lore "Déposer 0.25 Dias":
+			set {_diasowned} to 0
+			loop inventory of {_p}:
+				if id of loop-value is 6403:
+					if name of loop-value is "&6&l0.25 Dias":
+						set {_dias025} to loop-value
+						add 1 to {_diasowned}
+			if {_diasowned} > 0:
+				remove 1 of {_dias025} from inventory of {_p}
+				add 0.25 to {bank.%uuid of {_p}%}
+
+				deposit({_p})
+			else:
+				send "&4&l Vous ne possédez pas de pièce of 0.25 Dias" to {_p}
+
+		make gui slot 21 to emerald block named "&1&lDépot" with lore "Déposer 1 Dias":
+			set {_diasowned} to 0
+			loop inventory of {_p}:
+				if id of loop-value is 6394:
+					if name of loop-value is "&6&l1 Dias":
+						set {_dias1} to loop-value
+						add 1 to {_diasowned}
+			if {_diasowned} > 0:
+				remove 1 of {_dias1} from inventory of {_p}
+				add 1 to {bank.%uuid of {_p}%}
+
+				deposit({_p})
+			else:
+				send "&4&l Vous ne possédez pas de billet de 1 Dias" to {_p}
+
+		make gui slot 5 to emerald block named "&1&lDépot" with lore "Déposer 5 Dias":
+			set {_diasowned} to 0
+			loop inventory of {_p}:
+				if id of loop-value is 6402:
+					if name of loop-value is "&6&l5 Dias":
+						set {_dias5} to loop-value
+						add 1 to {_diasowned}
+
+			if {_diasowned} > 0:
+				remove 1 of {_dias5} from inventory of {_p}
+				add 5 to {bank.%uuid of {_p}%}
+
+				deposit({_p})
+			else:
+				send "&4&l Vous ne possédez pas de billet de 5 Dias" to {_p}
+
+		make gui slot 7 to emerald block named "&1&lDépot" with lore "Déposer 10 Dias":
+			set {_diasowned} to 0
+			loop inventory of {_p}:
+				if id of loop-value is 6397:
+					if name of loop-value is "&6&l10 Dias":
+						set {_dias10} to loop-value
+						add 1 to {_diasowned}
+
+			if {_diasowned} > 0:
+				remove 1 of {_dias10} from inventory of {_p}
+				add 10 to {bank.%uuid of {_p}%}
+
+				deposit({_p})
+			else:
+				send "&4&l Vous ne possédez pas de billet de 10 Dias" to {_p}
+			
+		make gui slot 15 to emerald block named "&1&lDépot" with lore "Déposer 20 Dias":
+			set {_diasowned} to 0
+			loop inventory of {_p}:
+				if id of loop-value is 6393:
+					if name of loop-value is "&6&l20 Dias":
+						set {_dias20} to loop-value
+						add 1 to {_diasowned}
+
+			if {_diasowned} > 0:
+				remove 1 of {_dias20} from inventory of {_p}
+				add 20 to {bank.%uuid of {_p}%}
+
+				deposit({_p})
+			else:
+				send "&4&l Vous ne possédez pas de billet de 20 Dias" to {_p}
+
+		make gui slot 23 to emerald block named "&1&lDépot" with lore "Déposer 50 Dias":
+			set {_diasowned} to 0
+			loop inventory of {_p}:
+				if id of loop-value is 6398:
+					if name of loop-value is "&6&l50 Dias":
+						set {_dias50} to loop-value
+						add 1 to {_diasowned}
+
+			if {_diasowned} > 0:
+				remove 1 of {_dias50} from inventory of {_p}
+				add 50 to {bank.%uuid of {_p}%}
+
+				deposit({_p})
+			else:
+				send "&4&l Vous ne possédez pas de billet de 50 Dias" to {_p}
+
+		make gui slot 25 to emerald block named "&1&lDépot" with lore "Déposer 100 Dias":
+			set {_diasowned} to 0
+			loop inventory of {_p}:
+				if id of loop-value is 6392:
+					if name of loop-value is "&6&l100 Dias":
+						set {_dias100} to loop-value
+						add 1 to {_diasowned}
+
+			if {_diasowned} > 0:
+				remove 1 of {_dias100} from inventory of {_p}
+				add 100 to {bank.%uuid of {_p}%}
+
+				deposit({_p})
+			else:
+				send "&4&l Vous ne possédez pas de billet de 100 Dias" to {_p}
+
+		make gui slot 13 to brick named "&9&lRetour":
+			openbank({_p})
+
+	open last gui for {_p}
+
+
+command /count <player>:
+	trigger:
+		if player has permission "desta.modo":
+			set {_count} to {bank.%uuid of arg-1%}
+			send "&d&l&o%arg-1% &2&l&opossède  &d&l&o%{_count}% Dias" to player
+
+command /setcount <player> <number>:
+	trigger:
+		if player has permission "desta.admin":
+			set {bank.%uuid of arg-1%} to arg-2
+			send "&2&l&oLe compte de &d&l&o%arg-1% &2&l&oa été réinitialisé à &d&l&o%arg-2% Dias" to player
+
+function withdraw(p: player):
+	set {_count} to {bank.%uuid of {_p}%}
+
+	set {_dias001} to pickaxe
+	set id of {_dias001} to 6399
+	set name of {_dias001} to "&6&l0.01 Dias"
+	set {_dias005} to pickaxe
+	set id of {_dias005} to 6396
+	set name of {_dias005} to "&6&l0.05 Dias"
+	set {_dias010} to pickaxe
+	set id of {_dias010} to 6401
+	set name of {_dias010} to "&6&l0.10 Dias"
+	set {_dias025} to pickaxe
+	set id of {_dias025} to 6403
+	set name of {_dias025} to "&6&l0.25 Dias"
+	set {_dias1} to pickaxe
+	set id of {_dias1} to 6394
+	set name of {_dias1} to "&6&l1 Dias"
+	set {_dias5} to pickaxe
+	set id of {_dias5} to 6402
+	set name of {_dias5} to "&6&l5 Dias"
+	set {_dias10} to pickaxe
+	set id of {_dias10} to 6397
+	set name of {_dias10} to "&6&l10 Dias"
+	set {_dias20} to pickaxe
+	set id of {_dias20} to 6393
+	set name of {_dias20} to "&6&l20 Dias"
+	set {_dias50} to pickaxe
+	set id of {_dias50} to 6398
+	set name of {_dias50} to "&6&l50 Dias"
+	set {_dias100} to pickaxe
+	set id of {_dias100} to 6392
+	set name of {_dias100} to "&6&l100 Dias"
+
+	create a gui with virtual chest inventory named "&1&lATM&f> Retrait [&l&6%{_count}% Dias&f]" with 3 rows:
+
+		make gui slot 1 to emerald named "&1&lRetrait" with lore "Retirer 0.01 Dias":
+			if {_count} >= 0.01:
+
+				if havespace({_p},id of {_dias001},"&6&l0.01 Dias") > 0:
+					add -0.01 to {bank.%uuid of {_p}%}
+
+					give 1 of {_dias001} to player
+					withdraw({_p})
+				else:
+					send "&4&l Vous n'avez pas assez de place pour recevoir cette pièce" to {_p}
+			else:
+				send "&4&l Vous ne possédez pas assez de Dias sur votre compte" to {_p}
+
+		make gui slot 3 to emerald named "&1&lRetrait" with lore "Retirer 0.05 Dias":
+			if {_count} >= 0.05:
+				if havespace({_p},id of {_dias005},"&6&l0.05 Dias") > 0:
+					add -0.05 to {bank.%uuid of {_p}%}
+
+					give 1 of {_dias005} to player
+					withdraw({_p})
+				else:
+					send "&4&l Vous n'avez pas assez de place pour recevoir cette pièce" to {_p}
+			else:
+				send "&4&l Vous ne possédez pas assez de Dias sur votre compte" to {_p}
+
+		make gui slot 11 to emerald named "&1&lRetrait" with lore "Retirer 0.10 Dias":
+			if {_count} >= 0.1:
+				if havespace({_p},id of {_dias010},"&6&l0.10 Dias") > 0:
+					add -0.1 to {bank.%uuid of {_p}%}
+
+					give 1 of {_dias010} to player
+					withdraw({_p})
+				else:
+					send "&4&l Vous n'avez pas assez de place pour recevoir cette pièce" to {_p}
+			else:
+				send "&4&l Vous ne possédez pas assez de Dias sur votre compte" to {_p}
+
+		make gui slot 19 to emerald named "&1&lRetrait" with lore "Retirer 0.25 Dias":
+			if {_count} >= 0.25:
+				if havespace({_p},id of {_dias025},"&6&l0.25 Dias") > 0:
+					add -0.25 to {bank.%uuid of {_p}%}
+
+					give 1 of {_dias025} to player
+					withdraw({_p})
+				else:
+					send "&4&l Vous n'avez pas assez de place pour recevoir cette pièce" to {_p}
+			else:
+				send "&4&l Vous ne possédez pas assez de Dias sur votre compte" to {_p}
+
+		make gui slot 21 to emerald block named "&1&lRetrait" with lore "Retirer 1 Dias":
+			if {_count} >= 1:
+				if havespace({_p},id of {_dias1},"&6&l1 Dias") > 0:
+					add -1 to {bank.%uuid of {_p}%}
+
+					give 1 of {_dias1} to player
+					withdraw({_p})
+				else:
+					send "&4&l Vous n'avez pas assez de place pour recevoir ce billet" to {_p}
+			else:
+				send "&4&l Vous ne possédez pas assez de Dias sur votre compte" to {_p}
+
+		make gui slot 5 to emerald block named "&1&lRetrait" with lore "Retirer 5 Dias":
+			if {_count} >= 5:
+				if havespace({_p},id of {_dias5},"&6&l5 Dias") > 0:
+					add -5 to {bank.%uuid of {_p}%}
+						
+					give 1 of {_dias5} to player
+					withdraw({_p})
+				else:
+					send "&4&l Vous n'avez pas assez de place pour recevoir ce billet" to {_p}
+			else:
+				send "&4&l Vous ne possédez pas assez de Dias sur votre compte" to {_p}
+
+		make gui slot 7 to emerald block named "&1&lRetrait" with lore "Retirer 10 Dias":
+			if {_count} >= 10:
+				if havespace({_p},id of {_dias10},"&6&l10 Dias") > 0:
+					add -10 to {bank.%uuid of {_p}%}
+						
+					give 1 of {_dias10} to player
+					withdraw({_p})
+				else:
+					send "&4&l Vous n'avez pas assez de place pour recevoir ce billet" to {_p}
+			else:
+				send "&4&l Vous ne possédez pas assez de Dias sur votre compte" to {_p}
+			
+		make gui slot 15 to emerald block named "&1&lRetrait" with lore "Retirer 20 Dias":
+			if {_count} >= 20:
+				if havespace({_p},id of {_dias20},"&6&l20 Dias") > 0:
+					add -20 to {bank.%uuid of {_p}%}
+						
+					give 1 of {_dias20} to player
+					withdraw({_p})
+				else:
+					send "&4&l Vous n'avez pas assez de place pour recevoir ce billet" to {_p}
+			else:
+				send "&4&l Vous ne possédez pas assez de Dias sur votre compte" to {_p}
+
+		make gui slot 23 to emerald block named "&1&lRetrait" with lore "Retirer 50 Dias":
+			if {_count} >= 50:
+				if havespace({_p},id of {_dias50},"&6&l50 Dias") > 0:
+					add -50 to {bank.%uuid of {_p}%}
+						
+					give 1 of {_dias50} to player
+					withdraw({_p})
+				else:
+					send "&4&l Vous n'avez pas assez de place pour recevoir ce billet" to {_p}
+			else:
+				send "&4&l Vous ne possédez pas assez de Dias sur votre compte" to {_p}
+
+		make gui slot 25 to emerald block named "&1&lRetrait" with lore "Retirer 100 Dias":
+			
+			if {_count} >= 100:
+				if havespace({_p},id of {_dias100},"&6&l100 Dias") > 0:
+					add -100 to {bank.%uuid of {_p}%}
+						
+					give 1 of {_dias100} to player
+					withdraw({_p})
+				else:
+					send "&4&l Vous n'avez pas assez de place pour recevoir ce billet" to {_p}
+			else:
+				send "&4&l Vous ne possédez pas assez de Dias sur votre compte" to {_p}
+
+		make gui slot 13 to brick named "&9&lRetour":
+			openbank({_p})
+
+	open last gui for {_p}
+
+function openbank(p: player):
+	create a gui with virtual chest inventory named "&1&lATM" with 3 rows:
+		set {_slot} to 0
+		loop 27 times:
+			make gui slot {_slot} to black glass pane named " "
+			add 1 to {_slot}
+
+		make gui slot 13 to emerald block named "&1&lCompte Courant" with lore "Vous possédez %{bank.%uuid of {_p}%}% Dias":
+
+		make gui slot 11 to green wool named "&2&lDéposer des Dias":
+			deposit({_p})
+
+		make gui slot 15 to red wool named "&4&lRetirer des Dias":
+			withdraw({_p})
+
+	open last gui for {_p}
+
+command /virement <player> <number>:
+	trigger:
+		if {bank.%uuid of player%} >= arg-2:
+			if arg-2 > 0:
+				loop inventory of arg-1:
+					if id of loop-value = 4544:
+						if name of loop-value is "&6&lCarte d'Identité":
+							set {_idcard} to loop-value
+							set {_fistnames::*} to line 2 of lore of {_idcard} split by " "
+							set {_firstname} to "%3rd element out of {_fistnames::*}%"
+							set {_lastnames::*} to line 1 of lore of {_idcard} split by " "
+							set {_lastname} to "%3rd element out of {_lastnames::*}%"
+							set {_rpnamearg} to "%{_firstname}% %{_lastname}%"
+						
+				loop inventory of player:
+					if id of loop-value = 4544:
+						if name of loop-value is "&6&lCarte d'Identité":
+							set {_idcard} to loop-value
+							set {_fistnames::*} to line 2 of lore of {_idcard} split by " "
+							set {_firstname} to "%3rd element out of {_fistnames::*}%"
+							set {_lastnames::*} to line 1 of lore of {_idcard} split by " "
+							set {_lastname} to "%3rd element out of {_lastnames::*}%"
+							set {_rpnameplayer} to "%{_firstname}% %{_lastname}%"
+
+
+				add 0-arg-2 to {bank.%uuid of player%}
+				add arg-2 to {bank.%uuid of arg-1%}
+				send "&f&l&o%{_rpnameplayer}% &2 vous a fait un virement de &f&l&o%arg-2% &2Dias" to arg-1
+				send "&2Vous avez fait un virement de &f&l&o%arg-2% &2Dias à &f&l&o%{_rpnamearg}%" to player

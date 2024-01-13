@@ -1,0 +1,147 @@
+on join:
+	loop player's inventory:
+		if name of loop-value = "&6&lTalkie-Walkie":
+			if id of loop-value = 4863:
+				set line 1 of lore of loop-value to "&4&l&oOFF"
+
+on right click:
+	if id of player's tool is 4863:
+		if name of player's tool is "&6&lTalkie-Walkie":
+			opentoki(player)
+	
+function opentoki(p: player):
+	set {_frequence} to line 2 of lore of {_p}'s tool
+	create a gui with virtual chest inventory named "&6&lTalkie-Walkie &f> %{_frequence}%" with 4 rows:
+		if line 1 of lore of {_p}'s tool is "&4&l&oOFF":
+			make gui slot 0 to red wool named "&4&l&oOFF":
+				set line 1 of lore of {_p}'s tool to "&2&l&oON"
+				opentoki({_p})
+
+		else if line 1 of lore of {_p}'s tool is "&2&l&oON":
+			make gui slot 0 to green wool named "&2&l&oON":
+				set line 1 of lore of {_p}'s tool to "&4&l&oOFF"
+				opentoki({_p})
+
+		if {_frequence} is "136":
+			make gui slot 10 to emerald named "&2&l&oFréquence &f136":
+				send "&4&l[ERROR] &f Vous êtes déjà sur cette fréquence!"
+		else:
+			make gui slot 10 to book named "&2&l&oFréquence &f136":
+				set line 2 of lore of {_p}'s tool to "136"
+				opentoki({_p})
+
+		if {_frequence} is "138.7":
+			make gui slot 11 to emerald named "&2&l&oFréquence &f138.7":
+				send "&4&l[ERROR] &f Vous êtes déjà sur cette fréquence!"
+		else:      
+			make gui slot 11 to book named "&2&l&oFréquence &f138.7":
+				set line 2 of lore of {_p}'s tool to "138.7"
+				opentoki({_p})
+
+		if {_frequence} is "141.4":
+			make gui slot 12 to emerald named "&2&l&oFréquence &f141.4":
+				send "&4&l[ERROR] &f Vous êtes déjà sur cette fréquence!"
+		else:      
+			make gui slot 12 to book named "&2&l&oFréquence &f141.4":
+				set line 2 of lore of {_p}'s tool to "141.4"
+				opentoki({_p})
+
+		if {_frequence} is "144.1":
+			make gui slot 13 to emerald named "&2&l&oFréquence &f144.1":
+				send "&4&l[ERROR] &f Vous êtes déjà sur cette fréquence!"
+		else:      
+			make gui slot 13 to book named "&2&l&oFréquence &f144.1":
+				set line 2 of lore of {_p}'s tool to "144.1"
+				opentoki({_p})
+
+		if {_frequence} is "146.8":
+			make gui slot 14 to emerald named "&2&l&oFréquence &f146.8":
+				send "&4&l[ERROR] &f Vous êtes déjà sur cette fréquence!"
+		else:      
+			make gui slot 14 to book named "&2&l&oFréquence &f146.8":
+				set line 2 of lore of {_p}'s tool to "146.8"
+				opentoki({_p})
+
+		if {_frequence} is "149.5":
+			make gui slot 15 to emerald named "&2&l&oFréquence &f149.5":
+				send "&4&l[ERROR] &f Vous êtes déjà sur cette fréquence!"
+		else:      
+			make gui slot 15 to book named "&2&l&oFréquence &f149.5":
+				set line 2 of lore of {_p}'s tool to "149.5"
+				opentoki({_p})
+
+		if {_frequence} is "152.2":
+			make gui slot 16 to emerald named "&2&l&oFréquence &f152.2":
+				send "&4&l[ERROR] &f Vous êtes déjà sur cette fréquence!"
+		else:      
+			make gui slot 16 to book named "&2&l&oFréquence &f152.2":
+				set line 2 of lore of {_p}'s tool to "152.2"
+				opentoki({_p})
+
+		if {_frequence} is "154.9":
+			make gui slot 19 to emerald named "&2&l&oFréquence &f154.9":
+				send "&4&l[ERROR] &f Vous êtes déjà sur cette fréquence!"
+		else:      
+			make gui slot 19 to book named "&2&l&oFréquence &f154.9":
+				set line 2 of lore of {_p}'s tool to "154.9"
+				opentoki({_p})
+
+		if {_frequence} is "157.6":
+			make gui slot 20 to emerald named "&2&l&oFréquence &f157.6":
+				send "&4&l[ERROR] &f Vous êtes déjà sur cette fréquence!"
+		else:      
+			make gui slot 20 to book named "&2&l&oFréquence &f157.6":
+				set line 2 of lore of {_p}'s tool to "157.6"
+				opentoki({_p})
+
+		if {_frequence} is "160.3":
+			make gui slot 21 to emerald named "&2&l&oFréquence &f160.3":
+				send "&4&l[ERROR] &f Vous êtes déjà sur cette fréquence!"
+		else:      
+			make gui slot 21 to book named "&2&l&oFréquence &f160.3":
+				set line 2 of lore of {_p}'s tool to "160.3"
+				opentoki({_p})
+
+		if {_frequence} is "163":
+			make gui slot 22 to emerald named "&2&l&oFréquence &f163":
+				send "&4&l[ERROR] &f Vous êtes déjà sur cette fréquence!"
+		else:      
+			make gui slot 22 to book named "&2&l&oFréquence &f163":
+				set line 2 of lore of {_p}'s tool to "163"
+				opentoki({_p})
+
+		if {_frequence} is "165.7":
+			make gui slot 23 to emerald named "&2&l&oFréquence &f165.7":
+				send "&4&l[ERROR] &f Vous êtes déjà sur cette fréquence!"
+		else:      
+			make gui slot 23 to book named "&2&l&oFréquence &f165.7":
+				set line 2 of lore of {_p}'s tool to "165.7"
+				opentoki({_p})
+
+		if {_frequence} is "168.4":
+			make gui slot 24 to emerald named "&2&l&oFréquence &f168.4":
+				send "&4&l[ERROR] &f Vous êtes déjà sur cette fréquence!"
+		else:      
+			make gui slot 24 to book named "&2&l&oFréquence &f168.4":
+				set line 2 of lore of {_p}'s tool to "168.4"
+				opentoki({_p})
+
+		if {_frequence} is "171.1":
+			make gui slot 25 to emerald named "&2&l&oFréquence &f171.1":
+				send "&4&l[ERROR] &f Vous êtes déjà sur cette fréquence!"
+		else:      
+			make gui slot 25 to book named "&2&l&oFréquence &f171.1":
+				set line 2 of lore of {_p}'s tool to "171.1"
+				opentoki({_p})
+
+
+	open last gui for {_p}
+
+command /givetalkie:
+	trigger:
+		if player has permission "desta.modo":
+			set {_item} to pickaxe
+			set id of {_item} to 4863
+			set name of {_item} to  "&6&lTalkie-Walkie"
+			set line 1 of lore of {_item} to "&4&l&oOFF"
+			give 1 of {_item} to player

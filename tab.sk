@@ -1,0 +1,92 @@
+#every 1.5 second:
+#    set {online-server} to amount of all players
+#    set {tps::*} to tps
+#    set {_tps} to first element of {tps::*}
+#    loop all players:
+#        set tab header to "&7[&5&lDestasia&7]%nl%&7------------------" and footer to "&7------------------%nl%%nl%&7Joueurs : &5&l%{online-server}% %nl% &7TPS : &d&o%{_tps}%" for loop-players
+
+
+
+
+every 10 seconds:
+    loop all players:
+        set {_rpname} to " "
+        loop inventory of loop-player:
+            if id of loop-value-2 = 4544:
+                if name of loop-value-2 is "&6&lCarte d'Identité":
+                    set {_idcard} to loop-value-2
+                    set {_fistnames::*} to line 2 of lore of {_idcard} split by " "
+                    set {_firstname} to "%3rd element out of {_fistnames::*}%"
+                    set {_lastnames::*} to line 1 of lore of {_idcard} split by " "
+                    set {_lastname} to "%3rd element out of {_lastnames::*}%"
+                    set {_rpname} to "%{_firstname}% %{_lastname}%"
+        if loop-player has permission "desta.admin":
+            if {_rpname} isn't " ":
+                set the loop-player's tab list name to "&a&7[&4A&7] %{_rpname}%"
+            else:
+                set the loop-player's tab list name to "&a&7[&4A&7] %loop-player%"
+
+        else if loop-player has permission "desta.modo":
+            if {_rpname} isn't " ":
+                set the loop-player's tab list name to "&7[&bM&7] %{_rpname}%"
+            else:
+                set the loop-player's tab list name to "&a&7[&4A&7] %loop-player%"
+
+        else if loop-player has permission "desta.builder":
+            if {_rpname} isn't " ":
+                set the loop-player's tab list name to "&7[&2B&7] %{_rpname}%"
+            else:
+                set the loop-player's tab list name to "&a&7[&4A&7] %loop-player%"
+
+        else if loop-player has permission "desta.sena":
+            if {_rpname} isn't " ":
+                set the loop-player's tab list name to "&7[&6S&7] %{_rpname}%"
+            else:
+                set the loop-player's tab list name to "&a&7[&4A&7] %loop-player%"
+
+        else:
+            if {_rpname} isn't " ":
+                set the loop-player's tab list name to "&7[&9E&7] &7%{_rpname}%"
+            else:
+                set the loop-player's tab list name to "&a&7[&4A&7] %loop-player%"
+
+on join:
+    loop all players:
+        loop inventory of loop-player:
+            if id of loop-value-2 = 4544:
+                if name of loop-value-2 is "&6&lCarte d'Identité":
+                    set {_idcard} to loop-value-2
+                    set {_fistnames::*} to line 2 of lore of {_idcard} split by " "
+                    set {_firstname} to "%3rd element out of {_fistnames::*}%"
+                    set {_lastnames::*} to line 1 of lore of {_idcard} split by " "
+                    set {_lastname} to "%3rd element out of {_lastnames::*}%"
+                    set {_rpname} to "%{_firstname}% %{_lastname}%"
+        if loop-player has permission "desta.admin":
+            if {_rpname} isn't " ":
+                set the loop-player's tab list name to "&a&7[&4A&7] %{_rpname}%"
+            else:
+                set the loop-player's tab list name to "&a&7[&4A&7] %loop-player%"
+
+        else if loop-player has permission "desta.modo":
+            if {_rpname} isn't " ":
+                set the loop-player's tab list name to "&7[&bM&7] %{_rpname}%"
+            else:
+                set the loop-player's tab list name to "&a&7[&4A&7] %loop-player%"
+
+        else if loop-player has permission "desta.builder":
+            if {_rpname} isn't " ":
+                set the loop-player's tab list name to "&7[&2B&7] %{_rpname}%"
+            else:
+                set the loop-player's tab list name to "&a&7[&4A&7] %loop-player%"
+
+        else if loop-player has permission "desta.sena":
+            if {_rpname} isn't " ":
+                set the loop-player's tab list name to "&7[&6S&7] %{_rpname}%"
+            else:
+                set the loop-player's tab list name to "&a&7[&4A&7] %loop-player%"
+
+        else:
+            if {_rpname} isn't " ":
+                set the loop-player's tab list name to "&7[&9E&7] &7%{_rpname}%"
+            else:
+                set the loop-player's tab list name to "&a&7[&4A&7] %loop-player%"

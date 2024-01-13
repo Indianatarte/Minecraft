@@ -1,0 +1,109 @@
+on respawn:
+	set respawn location to location at 362, 73, 36 in world "world"
+
+on right click:
+    if id of player's tool is 4532:
+        cancel event
+        if line 1 of lore of player's tool is not set:
+            set line 1 of lore of player's tool to "6/6"
+        givedoliprane(player)
+        
+    else if id of player's tool is 4524:
+        cancel event
+        set {_doliprane} to player's tool
+        remove 1 of {_doliprane} from inventory of player
+        apply potion of blindness of tier 1 to the player for 1 second replacing existing effect
+    
+    else if id of player's tool is 4513:
+        cancel event
+        if line 1 of lore of player's tool is not set:
+            set line 1 of lore of player's tool to "6/6"
+        giveaspirine(player)
+        
+    else if id of player's tool is 4817:
+        cancel event
+        set {_aspirine} to player's tool
+        remove 1 of {_aspirine} from inventory of player
+        apply potion of nausea of tier 1 to the player for 1 second replacing existing effect
+
+    else if id of player's tool is 4515:
+        cancel event
+        set {_seringue} to player's tool
+        apply potion of slowness of tier 1 to the player for 1 second replacing existing effect
+        apply potion of speed of tier 1 without any particles to the player for 300 second 
+        remove 1 of {_seringue} from inventory of player
+
+    else if id of player's tool is 4819:
+        cancel event
+        set {_bandage} to player's tool
+        heal player by 2.5 
+        remove 1 of {_bandage} from inventory of player
+
+function givedoliprane(p: player):
+    set {_doliprane} to pickaxe
+    set id of {_doliprane} to 4524
+
+    if line 1 of lore of {_p}'s tool is "6/6":
+        if havespace({_p},4524) > 0:
+            give 1 of {_doliprane} to {_p}
+            set line 1 of lore of {_p}'s tool to "5/6"
+
+        
+    else if line 1 of lore of {_p}'s tool is "5/6":
+        if havespace({_p},4524) > 0:
+            give 1 of {_doliprane} to {_p}
+            set line 1 of lore of {_p}'s tool to "4/6"
+        
+    else if line 1 of lore of {_p}'s tool is "4/6":
+        if havespace({_p},4524) > 0:
+            give 1 of {_doliprane} to {_p}
+            set line 1 of lore of {_p}'s tool to "3/6"
+
+    else if line 1 of lore of {_p}'s tool is "3/6":
+        if havespace({_p},4524) > 0:
+            give 1 of {_doliprane} to {_p}
+            set line 1 of lore of {_p}'s tool to "2/6"
+        
+    else if line 1 of lore of {_p}'s tool is "2/6":
+        if havespace({_p},4524) > 0:
+            give 1 of {_doliprane} to {_p}
+            set line 1 of lore of {_p}'s tool to "1/6"
+        
+    else if line 1 of lore of {_p}'s tool is "1/6":
+        if havespace({_p},4524) > 0:
+            give 1 of {_doliprane} to {_p}
+            remove 1 of {_p}'s tool from inventory of {_p}
+
+function giveaspirine(p: player):
+    set {_aspirine} to pickaxe
+    set id of {_aspirine} to 4817
+
+    if line 1 of lore of {_p}'s tool is "6/6":
+        if havespace({_p},4817) > 0:
+            give 1 of {_aspirine} to {_p}
+            set line 1 of lore of {_p}'s tool to "5/6"
+        
+    else if line 1 of lore of {_p}'s tool is "5/6":
+        if havespace({_p},4817) > 0:
+            give 1 of {_aspirine} to {_p}
+            set line 1 of lore of {_p}'s tool to "4/6"
+        
+    else if line 1 of lore of {_p}'s tool is "4/6":
+        if havespace({_p},4817) > 0:
+            give 1 of {_aspirine} to {_p}
+            set line 1 of lore of {_p}'s tool to "3/6"
+        
+    else if line 1 of lore of {_p}'s tool is "3/6":
+        if havespace({_p},4817) > 0:
+            give 1 of {_aspirine} to {_p}
+            set line 1 of lore of {_p}'s tool to "2/6"
+        
+    else if line 1 of lore of {_p}'s tool is "2/6":
+        if havespace({_p},4817) > 0:
+            give 1 of {_aspirine} to {_p}
+            set line 1 of lore of {_p}'s tool to "1/6"
+        
+    else if line 1 of lore of {_p}'s tool is "1/6":
+        if havespace({_p},4817) > 0:
+            give 1 of {_aspirine} to {_p}
+            remove 1 of {_p}'s tool from inventory of {_p}

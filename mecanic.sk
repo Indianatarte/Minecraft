@@ -1,0 +1,465 @@
+on right click on entity:
+	if name of event-entity is "Jean-Abdel":
+		if id of player's tool isn't 4826:
+			cancel event
+			openjean(player)
+
+function openjean(p: player):
+	set {_count} to npchealth("Jean-Abdel",0)
+	create a gui with virtual chest inventory named "&1&lJean-Abdel" with 1 rows:
+		make gui slot 4 to emerald named "&1&lCoffre Fort du garage"
+		make gui slot 2 to green wool named "&2&lDéposer des Dias":
+			depositnpc({_p},"Jean-Abdel")
+		make gui slot 6 to red wool named "&4&lRetirer des Dias":
+			withdrawnpc({_p},"Jean-Abdel")
+	open last gui for {_p}
+
+function clefdeserrage(p: player,nbt: text):
+	create a gui with virtual chest inventory named "&6&lModification" with 3 rows:
+		set {_slot} to 0
+		loop 27 times:
+			make gui slot {_slot} to black glass pane named " "
+			add 1 to {_slot}
+
+		set {_engine0} to pickaxe 
+		set id of {_engine0} to 4801
+		set {_wheel0} to pickaxe
+		set id of {_wheel0} to 4799
+
+		make gui slot 11 to {_engine0} named "&b&lMoteur":
+			openengin(player,{_nbt})
+
+		make gui slot 13 to {_wheel0} named "&b&l&oRoue":
+			openwheel(player,{_nbt})
+			
+		make gui slot 15 to glass named "&b&l&oCouleur":
+			opencolor({_p},{_nbt})
+		
+		open last gui for {_p}					
+
+function openwheel(p: player,nbt: text):
+	set {_wheel0} to pickaxe 
+	set id of {_wheel0} to 4799
+	set {_wheel1} to orange glass pane
+	set id of {_wheel1} to 4799
+	set {_wheel2} to magenta glass pane
+	set id of {_wheel2} to 4799
+	set {_wheel3} to light blue glass pane 
+	set id of {_wheel3} to 4799
+	set {_wheel4} to yellow glass pane
+	set id of {_wheel4} to 4799
+	set {_wheel5} to lime glass pane 
+	set id of {_wheel5} to 4799
+	set {_wheel6} to pink glass pane 
+	set id of {_wheel6} to 4799
+	if {_nbt} contain "wheelType:0":
+		set {_iconroue} to {_wheel0} named "&7Jeu de pneus : &f&lUsine"
+	else if {_nbt} contain "wheelType:1":
+		set {_iconroue} to {_wheel1} named "&7Jeu de pneus : &3&lSport"
+	else if {_nbt} contain "wheelType:2":
+		set {_iconroue} to {_wheel2} named "&7Jeu de pneus : &c&o&lRacing"
+	else if {_nbt} contain "wheelType:3":
+		set {_iconroue} to {_wheel3} named "&7Jeu de pneus : &6&lHors Route"
+	else if {_nbt} contain "wheelType:4":
+		set {_iconroue} to {_wheel4} named "&7Jeu de pneus : &b&lNeige"
+	else if {_nbt} contain "wheelType:5":
+		set {_iconroue} to {_wheel5} named "&7Jeu de pneus : &9&lTout terrain"
+	else if {_nbt} contain "wheelType:6":
+		set {_iconroue} to {_wheel6} named "&7Jeu de pneus : &d&lPlastique Drift"
+
+	create a gui with virtual chest inventory named "&6&lModification&7>Jeu de Pneus " with 5 rows:
+		set {_slot} to 0
+		loop 45 times:
+			make gui slot {_slot} to black glass pane named " "
+			add 1 to {_slot}
+		
+		make gui slot 4 to {_iconroue}
+
+		make gui slot 19 to {_wheel0} named "&f&lPneus d'Origine":
+			if {_nbt} contain "wheelType:0":
+				send "&4&l[ERROR] &fLe véhicule possède déja ce type de roue !" to {_p}
+			else:
+				replace "wheelType:0" and "wheelType:1" and "wheelType:2" and "wheelType:3" and "wheelType:4" and "wheelType:5" and "wheelType:6" with "wheelType:0" in {_nbt}
+				set nbt of target entity to {_nbt}
+				openwheel({_p},{_nbt})
+
+		make gui slot 21 to {_wheel1} named "&f&lPneus de Sport":
+			if {_nbt} contain "wheelType:1":
+				send "&4&l[ERROR] &fLe véhicule possède déja ce type de roue !" to {_p}
+			else:
+				replace "wheelType:0" and "wheelType:1" and "wheelType:2" and "wheelType:3" and "wheelType:4" and "wheelType:5" and "wheelType:6" with "wheelType:1" in {_nbt}
+				set nbt of target entity to {_nbt}
+				openwheel({_p},{_nbt})
+
+		make gui slot 23 to {_wheel2} named "&f&lPneus Racing":
+			if {_nbt} contain "wheelType:2":
+				send "&4&l[ERROR] &fLe véhicule possède déja ce type de roue !" to {_p}
+			else:
+				replace "wheelType:0" and "wheelType:1" and "wheelType:2" and "wheelType:3" and "wheelType:4" and "wheelType:5" and "wheelType:6" with "wheelType:2" in {_nbt}
+				set nbt of target entity to {_nbt}
+				openwheel({_p},{_nbt})
+
+		make gui slot 25 to {_wheel3} named "&f&lPneus Hors Route":
+			if {_nbt} contain "wheelType:3":
+				send "&4&l[ERROR] &fLe véhicule possède déja ce type de roue !" to {_p}
+			else:
+				replace "wheelType:0" and "wheelType:1" and "wheelType:2" and "wheelType:3" and "wheelType:4" and "wheelType:5" and "wheelType:6" with "wheelType:3" in {_nbt}
+				set nbt of target entity to {_nbt}
+				openwheel({_p},{_nbt})
+
+		make gui slot 29 to {_wheel4} named "&f&lPneus Neige":
+			if {_nbt} contain "wheelType:4":
+				send "&4&l[ERROR] &fLe véhicule possède déja ce type de roue !" to {_p}
+			else:
+				replace "wheelType:0" and "wheelType:1" and "wheelType:2" and "wheelType:3" and "wheelType:4" and "wheelType:5" and "wheelType:6" with "wheelType:4" in {_nbt}
+				set nbt of target entity to {_nbt}
+				openwheel({_p},{_nbt})
+
+		make gui slot 31 to {_wheel5} named "&f&lPneus Tout Terrain":
+			if {_nbt} contain "wheelType:5":
+				send "&4&l[ERROR] &fLe véhicule possède déja ce type de roue !" to {_p}
+			else:
+				replace "wheelType:0" and "wheelType:1" and "wheelType:2" and "wheelType:3" and "wheelType:4" and "wheelType:5" and "wheelType:6" with "wheelType:5" in {_nbt}
+				set nbt of target entity to {_nbt}
+				openwheel({_p},{_nbt})
+
+		make gui slot 33 to {_wheel6} named "&f&lPneus Drift":
+			if {_nbt} contain "wheelType:6":
+				send "&4&l[ERROR] &fLe véhicule possède déja ce type de roue !" to {_p}
+			else:
+				replace "wheelType:0" and "wheelType:1" and "wheelType:2" and "wheelType:3" and "wheelType:4" and "wheelType:5" and "wheelType:6" with "wheelType:6" in {_nbt}
+				set nbt of target entity to {_nbt}
+				openwheel({_p},{_nbt})
+
+		make gui slot 36 to brick named "&fRetour":
+			clefdeserrage({_p},{_nbt})
+
+	open last gui for {_p}
+
+function opencolor(p: player,nbt: text):
+	if {_nbt} contain "color:[I;249,255,254]":
+		set {_iconcolor} to white glass named "&7Couleur actuelle : &f&lBlanc"
+	else if {_nbt} contain "color:[I;255,158,0]":
+		set {_iconcolor} to orange glass named "&7Couleur actuelle : &6&lOrange"
+	else if {_nbt} contain "color:[I;255,0,251]":
+		set {_iconcolor} to magenta glass named "&7Couleur actuelle : &d&lMagenta"
+	else if {_nbt} contain "color:[I;0,212,255]":
+		set {_iconcolor} to light blue glass named "&7Couleur actuelle : &b&lBleu Claire"
+	else if {_nbt} contain "color:[I;255,247,0]":
+		set {_iconcolor} to yellow glass named "&7Couleur actuelle : &e&lJaune"
+	else if {_nbt} contain "color:[I;151,255,0]":
+		set {_iconcolor} to lime glass named "&7Couleur actuelle : &a&lVert Claire"
+	else if {_nbt} contain "color:[I;255,70,202]":
+		set {_iconcolor} to pink glass named "&7Couleur actuelle : &d&lRose"
+	else if {_nbt} contain "color:[I;101,101,101]":
+		set {_iconcolor} to grey glass named "&7Couleur actuelle : &8&lGris"
+	else if {_nbt} contain "color:[I;0,255,255]":
+		set {_iconcolor} to cyan glass named "&7Couleur actuelle : &3&lCyan"
+	else if {_nbt} contain "color:[I;197,0,255]":
+		set {_iconcolor} to purple glass named "&7Couleur actuelle : &5&lViolet"
+	else if {_nbt} contain "color:[I;0,12,255]":
+		set {_iconcolor} to blue glass named "&7Couleur actuelle : &1&lBleu"
+	else if {_nbt} contain "color:[I;107,58,0]":
+		set {_iconcolor} to brown glass named "&7Couleur actuelle : &6&lMarron"
+	else if {_nbt} contain "color:[I;23,171,13]":
+		set {_iconcolor} to green glass named "&7Couleur actuelle : &2&lVert"
+	else if {_nbt} contain "color:[I;255,0,0]":
+		set {_iconcolor} to red glass named "&7Couleur actuelle : &4&lRouge"
+	else if {_nbt} contain "color:[I;173,173,173]":
+		set {_iconcolor} to light grey glass named "&7Couleur actuelle : &7&lGris Claire"
+	else if {_nbt} contain "color:[I;1,0,0]":
+		set {_iconcolor} to black glass named "&7Couleur actuelle : &0&lNoir"
+		
+	create a gui with virtual chest inventory named "&6&lModification&7>Couleur " with 5 rows:
+		set {_slot} to 0
+		loop 45 times:
+			make gui slot {_slot} to black glass pane named " "
+			add 1 to {_slot}
+		
+		make gui slot 4 to {_iconcolor}
+
+		make gui slot 10 to white glass named "&f&lCouleur : &f&l&oBlanc":
+			if {_nbt} contain "color:[I;249,255,254]":
+				send "&4&l[ERROR] &fLe véhicule possède déja cette couleur !"
+			else:
+				replace "249,255,254" and "255,158,0" and "255,0,251" and "0,212,255" and "255,247,0" and "151,255,0" and "255,70,202" and "101,101,101" and "0,255,255" and "197,0,255" and "0,12,255" and "107,58,0" and "23,171,13" and "255,0,0" and "173,173,173" and "1,0,0" in {_nbt} with "249,255,254" 
+				set nbt of target entity to {_nbt}
+				opencolor({_p},{_nbt})
+
+		make gui slot 11 to orange glass named "&f&lCouleur : &6&l&oOrange":
+			if {_nbt} contain "color:[I;255,158,0]":
+				send "&4&l[ERROR] &fLe véhicule possède déja cette couleur !"
+			else:
+				replace "249,255,254" and "255,158,0" and "255,0,251" and "0,212,255" and "255,247,0" and "151,255,0" and "255,70,202" and "101,101,101" and "0,255,255" and "197,0,255" and "0,12,255" and "107,58,0" and "23,171,13" and "255,0,0" and "173,173,173" and "1,0,0" in {_nbt} with "255,158,0" 
+				set nbt of target entity to {_nbt}
+				opencolor({_p},{_nbt})
+
+		make gui slot 12 to magenta glass named "&f&lCouleur : &d&l&oMagenta":
+			if {_nbt} contain "color:[I;255,0,251]":
+				send "&4&l[ERROR] &fLe véhicule possède déja cette couleur !"
+			else:
+				replace "249,255,254" and "255,158,0" and "255,0,251" and "0,212,255" and "255,247,0" and "151,255,0" and "255,70,202" and "101,101,101" and "0,255,255" and "197,0,255" and "0,12,255" and "107,58,0" and "23,171,13" and "255,0,0" and "173,173,173" and "1,0,0" in {_nbt} with "255,0,251" 
+				set nbt of target entity to {_nbt}
+				opencolor({_p},{_nbt})
+
+		make gui slot 40 to light blue glass named "&f&lCouleur : &b&l&oBleu Claire":
+			if {_nbt} contain "color:[I;0,212,255]":
+				send "&4&l[ERROR] &fLe véhicule possède déja cette couleur !"
+			else:
+				replace "249,255,254" and "255,158,0" and "255,0,251" and "0,212,255" and "255,247,0" and "151,255,0" and "255,70,202" and "101,101,101" and "0,255,255" and "197,0,255" and "0,12,255" and "107,58,0" and "23,171,13" and "255,0,0" and "173,173,173" and "1,0,0" in {_nbt} with "0,212,255" 
+				set nbt of target entity to {_nbt}
+				opencolor({_p},{_nbt})
+
+		make gui slot 13 to yellow glass named "&f&lCouleur : &e&l&oJaune":
+			if {_nbt} contain "color:[I;255,247,0]":
+				send "&4&l[ERROR] &fLe véhicule possède déja cette couleur !"
+			else:
+				replace "249,255,254" and "255,158,0" and "255,0,251" and "0,212,255" and "255,247,0" and "151,255,0" and "255,70,202" and "101,101,101" and "0,255,255" and "197,0,255" and "0,12,255" and "107,58,0" and "23,171,13" and "255,0,0" and "173,173,173" and "1,0,0" in {_nbt} with "255,247,0" 
+				set nbt of target entity to {_nbt}
+				opencolor({_p},{_nbt})
+
+		make gui slot 14 to lime glass named "&f&lCouleur : &a&l&oVert Claire":
+			if {_nbt} contain "color:[I;151,255,0]":
+				send "&4&l[ERROR] &fLe véhicule possède déja cette couleur !"
+			else:
+				replace "249,255,254" and "255,158,0" and "255,0,251" and "0,212,255" and "255,247,0" and "151,255,0" and "255,70,202" and "101,101,101" and "0,255,255" and "197,0,255" and "0,12,255" and "107,58,0" and "23,171,13" and "255,0,0" and "173,173,173" and "1,0,0" in {_nbt} with "151,255,0" 
+				set nbt of target entity to {_nbt}
+				opencolor({_p},{_nbt})
+
+		make gui slot 15 to pink glass named "&f&lCouleur : &d&l&oRose":
+			if {_nbt} contain "color:[I;255,70,202]":
+				send "&4&l[ERROR] &fLe véhicule possède déja cette couleur !"
+			else:
+				replace "249,255,254" and "255,158,0" and "255,0,251" and "0,212,255" and "255,247,0" and "151,255,0" and "255,70,202" and "101,101,101" and "0,255,255" and "197,0,255" and "0,12,255" and "107,58,0" and "23,171,13" and "255,0,0" and "173,173,173" and "1,0,0" in {_nbt} with "255,70,202" 
+				set nbt of target entity to {_nbt}
+				opencolor({_p},{_nbt})
+
+		make gui slot 16 to grey glass named "&f&lCouleur : &8&l&oGris":
+			if {_nbt} contain "color:[I;101,101,101]":
+				send "&4&l[ERROR] &fLe véhicule possède déja cette couleur !"
+			else:
+				replace "249,255,254" and "255,158,0" and "255,0,251" and "0,212,255" and "255,247,0" and "151,255,0" and "255,70,202" and "101,101,101" and "0,255,255" and "197,0,255" and "0,12,255" and "107,58,0" and "23,171,13" and "255,0,0" and "173,173,173" and "1,0,0" in {_nbt} with "101,101,101" 
+				set nbt of target entity to {_nbt}
+				opencolor({_p},{_nbt})
+		
+		make gui slot 20 to cyan glass named "&f&lCouleur : &3&l&oCyan":
+			if {_nbt} contain "color:[I;0,255,255]":
+				send "&4&l[ERROR] &fLe véhicule possède déja cette couleur !"
+			else:
+				replace "249,255,254" and "255,158,0" and "255,0,251" and "0,212,255" and "255,247,0" and "151,255,0" and "255,70,202" and "101,101,101" and "0,255,255" and "197,0,255" and "0,12,255" and "107,58,0" and "23,171,13" and "255,0,0" and "173,173,173" and "1,0,0" in {_nbt} with "0,255,255" 
+				set nbt of target entity to {_nbt}
+				opencolor({_p},{_nbt})
+
+		make gui slot 21 to purple glass named "&f&lCouleur : &5&l&oViolet":
+			if {_nbt} contain "color:[I;197,0,255]":
+				send "&4&l[ERROR] &fLe véhicule possède déja cette couleur !"
+			else:
+				replace "249,255,254" and "255,158,0" and "255,0,251" and "0,212,255" and "255,247,0" and "151,255,0" and "255,70,202" and "101,101,101" and "0,255,255" and "197,0,255" and "0,12,255" and "107,58,0" and "23,171,13" and "255,0,0" and "173,173,173" and "1,0,0" in {_nbt} with "197,0,255" 
+				set nbt of target entity to {_nbt}
+				opencolor({_p},{_nbt})
+
+		make gui slot 22 to blue glass named "&f&lCouleur : &1&l&oBleu":
+			if {_nbt} contain "color:[I;0,12,255]":
+				send "&4&l[ERROR] &fLe véhicule possède déja cette couleur !"
+			else:
+				replace "249,255,254" and "255,158,0" and "255,0,251" and "0,212,255" and "255,247,0" and "151,255,0" and "255,70,202" and "101,101,101" and "0,255,255" and "197,0,255" and "0,12,255" and "107,58,0" and "23,171,13" and "255,0,0" and "173,173,173" and "1,0,0" in {_nbt} with "0,12,255" 
+				set nbt of target entity to {_nbt}
+				opencolor({_p},{_nbt})
+
+		make gui slot 23 to brown glass named "&f&lCouleur : &6&l&oMarron":
+			if {_nbt} contain "color:[I;107,58,0]":
+				send "&4&l[ERROR] &fLe véhicule possède déja cette couleur !"
+			else:
+				replace "249,255,254" and "255,158,0" and "255,0,251" and "0,212,255" and "255,247,0" and "151,255,0" and "255,70,202" and "101,101,101" and "0,255,255" and "197,0,255" and "0,12,255" and "107,58,0" and "23,171,13" and "255,0,0" and "173,173,173" and "1,0,0" in {_nbt} with "107,58,0" 
+				set nbt of target entity to {_nbt}
+				opencolor({_p},{_nbt})
+
+		make gui slot 24 to green glass named "&f&lCouleur : &2&l&oVert":
+			if {_nbt} contain "color:[I;23,171,13]":
+				send "&4&l[ERROR] &fLe véhicule possède déja cette couleur !"
+			else:
+				replace "249,255,254" and "255,158,0" and "255,0,251" and "0,212,255" and "255,247,0" and "151,255,0" and "255,70,202" and "101,101,101" and "0,255,255" and "197,0,255" and "0,12,255" and "107,58,0" and "23,171,13" and "255,0,0" and "173,173,173" and "1,0,0" in {_nbt} with "23,171,13" 
+				set nbt of target entity to {_nbt}
+				opencolor({_p},{_nbt})
+
+		make gui slot 30 to red glass named "&f&lCouleur : &4&l&oRouge":
+			if {_nbt} contain "color:[I;255,0,0]":
+				send "&4&l[ERROR] &fLe véhicule possède déja cette couleur !"
+			else:
+				replace "249,255,254" and "255,158,0" and "255,0,251" and "0,212,255" and "255,247,0" and "151,255,0" and "255,70,202" and "101,101,101" and "0,255,255" and "197,0,255" and "0,12,255" and "107,58,0" and "23,171,13" and "255,0,0" and "173,173,173" and "1,0,0" in {_nbt} with "255,0,0" 
+				set nbt of target entity to {_nbt}
+				opencolor({_p},{_nbt})
+
+		make gui slot 31 to light grey glass named "&f&lCouleur : &7&l&oGris Claire":
+			if {_nbt} contain "color:[I;173,173,173]":
+				send "&4&l[ERROR] &fLe véhicule possède déja cette couleur !"
+			else:
+				replace "249,255,254" and "255,158,0" and "255,0,251" and "0,212,255" and "255,247,0" and "151,255,0" and "255,70,202" and "101,101,101" and "0,255,255" and "197,0,255" and "0,12,255" and "107,58,0" and "23,171,13" and "255,0,0" and "173,173,173" and "1,0,0" in {_nbt} with "173,173,173" 
+				set nbt of target entity to {_nbt}
+				opencolor({_p},{_nbt})
+
+		make gui slot 32 to black glass	 named "&f&lCouleur : &0&l&oNoir":
+			if {_nbt} contain "color:[I;1,0,0]":
+				send "&4&l[ERROR] &fLe véhicule possède déja cette couleur !"
+			else:
+				replace "249,255,254" and "255,158,0" and "255,0,251" and "0,212,255" and "255,247,0" and "151,255,0" and "255,70,202" and "101,101,101" and "0,255,255" and "197,0,255" and "0,12,255" and "107,58,0" and "23,171,13" and "255,0,0" and "173,173,173" and "1,0,0" in {_nbt} with "1,0,0" 
+				set nbt of target entity to {_nbt}
+				opencolor({_p},{_nbt})
+
+		
+		make gui slot 36 to brick named "&fRetour":
+			clefdeserrage({_p},{_nbt})
+
+	open last gui for {_p}
+					
+function openengin(p: player,nbt: text):
+	set {_engine0} to pickaxe 
+	set id of {_engine0} to 4801
+	set name of {_engine0} to "&f&lMoteur d'Origine"
+	set {_engine1} to orange glass pane
+	set id of {_engine1} to 4801
+	set name of {_engine1} to "&8&lReprogrammation Moteur Tier 1"
+	set {_engine2} to magenta glass pane
+	set id of {_engine2} to 4801
+	set name of {_engine2} to "&7&lReprogrammation Moteur Tier 2"
+	set {_engine3} to light blue glass pane 
+	set id of {_engine3} to 4801
+	set name of {_engine3} to "&6&lSwap Moteur Spécialisé Accélération"
+	set {_engine4} to yellow glass pane
+	set id of {_engine4} to 4801
+	set name of {_engine4} to "&b&lSwap Moteur Spécialisé Vitesse"
+
+	if {_nbt} contain "engineTier:0":
+		set {_iconmoteur} to {_engine0} named "&7Moteur actuel : &f&lUsine"
+	else if {_nbt} contain "engineTier:1":
+		set {_iconmoteur} to {_engine1} named "&7Moteur actuel : &f&lStage &8&l1"
+	else if {_nbt} contain "engineTier:2":
+		set {_iconmoteur} to {_engine2} named "&7Moteur actuel : &f&lStage &f&l2"
+	else if {_nbt} contain "engineTier:3":
+		set {_iconmoteur} to {_engine3} named "&7Moteur actuel : &f&lSwap Accélération" with lore "&4&o&l [WARNING] Ce moteur est illégal sur route!"
+	else if {_nbt} contain "engineTier:4":
+		set {_iconmoteur} to {_engine4} named "&7Moteur actuel : &f&lSwap Vitesse" with lore "&4&o&l [WARNING] Ce moteur est illégal sur route!"
+
+	create a gui with virtual chest inventory named "&6&lModification&7>Moteur " with 5 rows:
+		set {_slot} to 0
+		loop 45 times:
+			make gui slot {_slot} to black glass pane named " "
+			add 1 to {_slot}
+		
+		make gui slot 4 to {_iconmoteur}
+
+		make gui slot 20 to {_engine0} named "&f&lMoteur d'Origine":
+			if {_nbt} contain "engineTier:0":
+				send "&4&l[ERROR] &fLe véhicule possède déjà ce moteur !"
+			else:
+				replace "engineTier:0" and "engineTier:1" and "engineTier:2" and "engineTier:3" and "engineTier:4" with "engineTier:0" in {_nbt}
+				set nbt of target entity to {_nbt}
+				openengin({_p},{_nbt})
+
+		make gui slot 22 to {_engine1} named "&8&lReprogrammation Moteur Tier 1":
+			if {_nbt} contain "engineTier:1":
+				send "&4&l[ERROR] &fLe véhicule possède déjà ce moteur !"
+			else:
+				replace "engineTier:0" and "engineTier:1" and "engineTier:2" and "engineTier:3" and "engineTier:4" with "engineTier:1" in {_nbt}
+				set nbt of target entity to {_nbt}
+				openengin({_p},{_nbt})
+
+		make gui slot 24 to {_engine2} named "&7&lReprogrammation Moteur Tier 2":
+			if {_nbt} contain "engineTier:2":
+				send "&4&l[ERROR] &fLe véhicule possède déjà ce moteur !"
+			else:
+				replace "engineTier:0" and "engineTier:1" and "engineTier:2" and "engineTier:3" and "engineTier:4" with "engineTier:2" in {_nbt}
+				set nbt of target entity to {_nbt}
+				openengin({_p},{_nbt})
+
+		make gui slot 30 to {_engine3} named "&6&lSwap Moteur Spécialisé Accélération":
+			if {_nbt} contain "engineTier:3":
+				send "&4&l[ERROR] &fLe véhicule possède déjà ce moteur !"
+			else:
+				replace "engineTier:0" and "engineTier:1" and "engineTier:2" and "engineTier:3" and "engineTier:4" with "engineTier:3" in {_nbt}
+				set nbt of target entity to {_nbt}
+				openengin({_p},{_nbt})
+
+		make gui slot 32 to {_engine4} named "&b&lSwap Moteur Spécialisé Vitesse":
+			if {_nbt} contain "engineTier:4":
+				send "&4&l[ERROR] &fLe véhicule possède déjà ce moteur !"
+			else:
+				replace "engineTier:0" and "engineTier:1" and "engineTier:2" and "engineTier:3" and "engineTier:4" with "engineTier:4" in {_nbt}
+				set nbt of target entity to {_nbt}
+				openengin({_p},{_nbt})
+
+		make gui slot 36 to brick named "&fRetour":
+			clefdeserrage({_p},{_nbt})
+
+	open last gui for {_p}
+
+#{currentFuel:0.0f,color:[I;249,255,254],wheelColor:-1,Invulnerable:0b,maxTurnAngle:45,PortalCooldown:0,engineTier:1,FallDistance:0.0f,WorldUUIDMost:-5312647610694939192L,hasWheels:1b,ForgeCaps:{"llibrary:extendedentitydatacapability":{}},maxHealth:100.0f,Spigot.ticksLived:476,owner:{L:-6102611033752213437L,M:3143420301857541927L},Motion:[0.0d,0.0d,0.0d],UUIDLeast:-9042040661884285950L,fuelCapacity:20000.0f,Bukkit.updateLevel:2,wheelType:0,turnSensitivity:10,health:100.0f,Air:300s,OnGround:1b,Dimension:0,maxSpeed:18.0f,Rotation:[0.0f,0.0f],UpdateBlocked:0b,keyNeeded:0b,accelerationSpeed:0.5f,UUIDMost:-3499094935464752883L,hasEngine:1b,Pos:[-276.47314453125d,71.0d,186.478271484375d],Fire:-1s,SeatTracker:{PlayerSeatMap:[{SeatIndex:0,UUIDMost:3143420301857541927L,UUIDLeast:-6102611033752213437L}]},stepHeight:1.0f,requiresFuel:1b,WorldUUIDLeast:-8638803249680989511L}
+#{currentFuel:0.0f,color:[I;249,255,254],wheelColor:-1,Invulnerable:0b,maxTurnAngle:45,PortalCooldown:0,engineTier:0,FallDistance:0.0f,WorldUUIDMost:-5312647610694939192L,hasWheels:1b,ForgeCaps:{"llibrary:extendedentitydatacapability":{}},maxHealth:100.0f,Spigot.ticksLived:77,owner:{L:-6102611033752213437L,M:3143420301857541927L},Motion:[0.0d,0.0d,0.0d],UUIDLeast:-9042040661884285950L,fuelCapacity:20000.0f,Bukkit.updateLevel:2,wheelType:0,turnSensitivity:10,health:100.0f,Air:300s,OnGround:1b,Dimension:0,maxSpeed:18.0f,Rotation:[-0.95275116f,0.0f],UpdateBlocked:0b,keyNeeded:0b,accelerationSpeed:0.5f,UUIDMost:-3499094935464752883L,hasEngine:1b,Pos:[-276.65571652228493d,71.0d,186.4918416052157d],Fire:-1s,SeatTracker:{PlayerSeatMap:[{SeatIndex:0,UUIDMost:3143420301857541927L,UUIDLeast:-6102611033752213437L}]},stepHeight:1.0f,requiresFuel:1b,WorldUUIDLeast:-8638803249680989511L}
+
+command /clefdeverrouillage:
+	trigger:
+		if player has permission "desta.mecano":
+			if distance between location of player and location of target entity < 5: 
+				if id of player's tool is 4824:
+					if line 1 of lore of player's tool is set:
+						send "&4&l[ERROR] &fCette clef est déjà assignée à un véhicule!" to {_p}
+					else:
+						set line 1 of lore of player's tool to UUID of target entity
+						set name of player's tool to "&6&lClef de Véhicule"
+			
+on right click:
+	set {_nbt} to nbt of target entity
+	set {_name} to name of target entity
+	if name of player's tool is "&6&lClef de Véhicule":
+		cancel event
+
+	if {_nbt} contain "currentFuel":
+
+		if name of player's tool is "&6&lClef de Véhicule":
+			if lore of player's tool = UUID of target entity:
+				if {_name} is "locked":
+					replace "locked" with "unlocked" in {_name}
+					set name of target entity to "%{_name}%"
+					send "&2&lCe véhicule est maintenant Dévérouillé" to player
+
+				else if {_name} is "unlocked":
+					replace "unlocked" with "locked" in {_name}
+					set name of target entity to "%{_name}%"
+					send "&4&lCe véhicule est maintenant Vérouillé" to player
+
+				else:
+					add "locked" to {_name}
+					set name of target entity to "locked"
+					send "&4&l[LOCK]" to player
+			
+			else:
+				send "&4&l[ERROR] &fCette clef n'est pas la bonne !" to player
+				cancel event
+
+		else if name of player's tool is "&b&lClef D'Information":
+			if id of player's tool = 4539:
+				send name of target entity to player
+				cancel event
+				send "_________________________________________________________________" to console
+				send {_nbt} to console
+
+		else if name of player's tool is "&6&lClef De Serrage":
+			if id of player's tool = 4539:
+				if player has permission "desta.mecano":
+					cancel event
+					clefdeserrage(player,{_nbt})
+
+		if name of target entity is "locked":
+			cancel event
+			send "&4&l[ERROR] &fCe véhicule est vérouillé" to player
+	
+	
+command /giveclefff:
+	trigger:
+		if player has permission "desta.admin":
+			set {_item} to pickaxe
+			set id of {_item} to 4539
+			give 1 of {_item} named "&6&lClef De Serrage" to player
+			give 1 of {_item} named "&b&lClef D'Information" to player
+
+		

@@ -1,0 +1,159 @@
+command /identitycard <player> <text> <text> <text> <text> <text> <text> :
+	usage: /identitycard <Chataigne_> <01/01/2000> <Aix-en-Provence> <F/M> <1M70> <Lutherking> <Martin Michel Gerard>
+	trigger:
+		if player has permission "desta.recru":
+			set {_idcard} to pickaxe
+			set id of {_idcard} to 4544
+			set name of {_idcard} to "&6&lCarte d'Identité"
+			set line 1 of lore of {_idcard} to "&9&lNom : &f&o%arg-6%"
+			set line 2 of lore of {_idcard} to "&9&lPrénom(s) : &f&o%arg-7%"
+			set line 3 of lore of {_idcard} to "&9&lSexe : &f&o%arg-4%"
+			set line 4 of lore of {_idcard} to "&9&lNé le : &f&o%arg-2%"
+			set line 5 of lore of {_idcard} to "&9&là : &f&o%arg-3%"
+			set line 6 of lore of {_idcard} to "&9&lTaille : &f&o%arg-5%"
+			give 1 of {_idcard} to arg-1
+
+
+on inventory click:
+	if name of event-slot is "&6&lCarte d'Identité":
+		if metadata "mooveidcard" of player is false:
+			cancel event
+		else if metadata "mooveidcard" of player isn't set:
+			set metadata "mooveidcard" of player to false
+
+command /mooveidcard [<player>]:
+	trigger:
+		if player has permission "desta.admin" or "desta.modo":
+			if arg-1 isn't set:
+				set {_joueur} to player
+			else:
+				set {_joueur} to arg-1
+			if metadata "mooveidcard" of {_joueur} is false:
+				set metadata "mooveidcard" of {_joueur} to true
+			else:
+				set metadata "mooveidcard" of {_joueur} to false
+		else:
+			send "&4&l[ERROR] &fVous ne possédez pas les droits d'exécuter cette commande!" to player
+
+
+command /askidcard:
+	trigger:
+		if target player is set:
+			if distance between location of player and location of target player < 5:
+				send "Voulez-vous montrer votre carte d'identité?" to target player
+				send formatted "<tooltip:&2Montrers votre carte d'identité><run command:/showidcard %player% accept>&2&o&l[Accepter]<r> <tooltip:&4Refuser de montrer la carte d'identité><run command:/showidcard %player% deny>&4&o&l[Refuser]<r>" to target player
+				set metadata value "verifa" of target player to true
+				send "&2&l&fLa demande a été envoyée"
+				set {_target} to target player
+				wait 10 second
+				set metadata value "verifa" of {_target} to false
+			else:
+				send "&4&l[ERROR] &f Cette personne est trop loin pour vous donner sa carte d'identité!" to player
+		else:
+			send "&4&l[ERROR] &f Veuillez regarder la personne à qui vous voulez demander la carte d'identité!" to player
+
+
+command /showidcard [<player>] [<text>]:
+	trigger:
+		if arg-1 is set:
+			set {_p} to arg-1
+		else:
+			set {_p} to target player
+		if distance between location of player and location of {_p} < 5:
+			if arg-2 is set:
+				if metadata value "verifa" of player is true:
+					if arg-2 is "accept":
+						loop inventory of player:
+							if id of loop-value = 4544:
+								if name of loop-value is "&6&lCarte d'Identité":
+									set {_verifidcard} to true
+									set {_idcard} to loop-value
+
+									send "-----------------" to {_p}
+									send line 1 of lore of {_idcard} to {_p}
+									send line 2 of lore of {_idcard} to {_p}
+									send line 3 of lore of {_idcard} to {_p}
+									send line 4 of lore of {_idcard} to {_p}
+									send line 5 of lore of {_idcard} to {_p}
+									send line 6 of lore of {_idcard} to {_p}
+									send "-----------------" to {_p}
+									send "&7[&9ACTION&7] &f Vous avez bien montré votre carte d'identité!" to player
+									set metadata value "verifa" of player to false
+						if {_verifidcard} isn't set:
+							loop all players:
+								if loop-player has permission "desta.admin" or "desta.modo":
+									send "&4&l[ERROR] &f %player% ne possède pas de carte d'identité!" to loop-player
+
+					else if arg-2 is "deny":
+						set metadata value "verifa" of player to false
+						send "&4&l[ERROR] &f Cette personne a refusé de vous donner sa carte d'identité" to {_p}
+						send "&4&l[Refus] &f Vous avez refusé de donner votre carte d'identité" to player
+					
+					else:
+						send "&4&l[ERROR] &f /showidcard (player) (accept/deny)" to player
+				else if metadata value "verifa" of player is false:
+					if metadata value "verifb" of player is true:
+						if arg-2 is "accept":
+							loop inventory of {_p}:
+								if id of loop-value = 4544:
+									if name of loop-value is "&6&lCarte d'Identité":
+										set {_idcard} to loop-value
+										set {_verifidcard} to true
+										send "-----------------" to player
+										send line 1 of lore of {_idcard} to player
+										send line 2 of lore of {_idcard} to player
+										send line 3 of lore of {_idcard} to player
+										send line 4 of lore of {_idcard} to player
+										send line 5 of lore of {_idcard} to player
+										send line 6 of lore of {_idcard} to player
+										send "-----------------" to player
+										send "&2&o&l[] &f Vous avez bien montré votre carte d'identité!" to {_p}
+										set metadata value "verifb" of player to false
+							if {_verifidcard} isn't set:
+								loop all players:
+									if loop-player has permission "desta.admin" or "desta.modo":
+										send "&4&l[ERROR] &f %player% ne possède pas de carte d'identité!" to loop-player
+						else if arg-2 is "deny":
+							set metadata value "verifb" of player to false
+							send "&4&l[ERROR] &f Cette personne a refusé de voir votre carte d'identité" to {_p}
+							send "&4&l[Refus] &f Vous avez refusé de voir la carte d'identité" to player
+						
+						else:
+							send "&4&l[ERROR] &f /showidcard (player) (accept/deny)" to player
+					else:
+						send "&4&l[ERROR] &fOn ne souhaite ni vous demander ni vous présenter de carte d'identité!" to player
+			
+			else:
+				if target player is set:
+					if distance between location of player and location of {_p} < 5:
+						loop inventory of player:
+							if id of loop-value = 4544:
+								if name of loop-value is "&6&lCarte d'Identité":
+									set {_idcard} to loop-value
+									set {_fistnames::*} to line 3 of lore of {_idcard} split by " "
+									set {_firstname} to "%3rd element out of {_fistnames::*}%"
+									set {_lastnames::*} to line 1 of lore of {_idcard} split by " "
+									set {_lastname} to "%3rd element out of {_lastnames::*}%"
+									if {_firstname} is "F" or "f":
+										set {_firstname} to "Mme"
+									else if {_firstname} is "M" or "m":
+										set {_firstname} to "Mr"
+									set {_rpname} to "%{_firstname}% %{_lastname}%"
+						send "&fVoulez vous voir la carte d'identité de %{_rpname}%?" to target player
+						send formatted "<tooltip:&2Voir la carte d'identité><run command:/showidcard %player% accept>&2&o&l[Accepter]<r> <tooltip:&4&o&lRefuser la carte d'identité><run command:/showidcard %player% deny>&4&o&l[Refuser]<r>" to target player
+						set metadata value "verifb" of target player to true
+						set {_target} to target player
+						wait 10 second
+						set metadata value "verifb" of {_target} to false
+					else:
+						send "&4&l[ERROR] &fCette personne est trop loin!" to player
+				else:
+					send "&4&l[ERROR] &f Veuillez regarder la personne à qui vous voulez montrer votre carte d'identité!" to player
+
+		else:
+			send "&4&l[ERROR] &fCette personne est trop loin!" to player
+
+on join:
+	set metadata value "verifb" of player to false
+	set metadata value "verifa" of player to false
+	set metadata "mooveidcard" of player to false

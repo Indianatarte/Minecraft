@@ -1,0 +1,77 @@
+on chat:
+	cancel event
+	set {_firstcharacter::*} to message split by ""
+	set {_first} to "%first element out of {_firstcharacter::*}%"
+	loop inventory of player:
+		if id of loop-value = 4544:
+			if name of loop-value is "&6&lCarte d'Identité":
+				set {_idcard} to loop-value
+				set {_fistnames::*} to line 2 of lore of {_idcard} split by " "
+				set {_firstname} to "%3rd element out of {_fistnames::*}%"
+				set {_lastnames::*} to line 1 of lore of {_idcard} split by " "
+				set {_lastname} to "%3rd element out of {_lastnames::*}%"
+				set {_rpname} to "%{_firstname}% %{_lastname}%"
+
+	if {_first} = "!":
+		replace "!" in message with ""
+		send "&7[&5HRPG&7] &7%player% &7➜ %message%" to all players
+
+	else if {_first} = "*":
+		replace "*" in message with ""
+		loop players in radius 15 around block at location of player:
+			send "&7[&9ACTION&7] &7%{_rpname}% &7➜ &b&o%message%" to loop-player
+
+	else if {_first} = "$":
+		replace "$" in message with ""
+		loop players in radius 2 around block at location of player:
+			send "&9%{_rpname}% &7vous chuchotte : &b&o%message%" to loop-player
+
+	else if {_first} = "£":
+		replace "£" in message with ""
+		if name of player's tool is "&6&lTalkie-Walkie":
+			set {_verif} to true
+			set {_item} to player's tool
+		else if name of player's off hand tool is "&6&lTalkie-Walkie":
+			set {_verif} to true
+			set {_item} to player's off hand tool
+
+		if {_verif} is true:
+			if id of {_item} is 4863:
+				if line 1 of lore of {_item} is "&2&l&oON":
+					loop all players:
+						loop inventory of loop-player:
+							if id of loop-value-2 is 4863:
+								if name of loop-value-2 is "&6&lTalkie-Walkie":
+									if line 1 of lore of loop-value-2 is "&2&l&oON":
+										if line 2 of lore of loop-value-2 is line 2 of lore of {_item}:
+											send "&l&1[Talkie-Walkie] &f%message%" to loop-player
+				else:
+					send "&4&l[ERROR] &f Votre Talkie_Walkie est éteint!" to player
+		else:
+			send "&4&l[ERROR] &f Vous devez tenir votre Talkie-Walkie pour parler avec!" to player
+	else:
+		loop players in radius 15 around block at location of player:
+			send "&7[&aHRP&7] &7%player% &7➜ %message%" to loop-player
+
+command /roll [<number=100>]:
+	usage: /roll <nombre>
+	trigger:
+		set {_number} to floor(arg-1)
+		if {_number} > 100:
+			send "&4&l[ERROR] &f Ce chiffre est trop grand!" to player
+		else if {_number} < 0:
+			send "&4&l[ERROR] &f Ce chiffre est trop petit!" to player
+		else:
+			loop inventory of player:
+				if id of loop-value = 4544:
+					if name of loop-value is "&6&lCarte d'Identité":
+						set {_idcard} to loop-value
+						set {_fistnames::*} to line 2 of lore of {_idcard} split by " "
+						set {_firstname} to "%3rd element out of {_fistnames::*}%"
+						set {_lastnames::*} to line 1 of lore of {_idcard} split by " "
+						set {_lastname} to "%3rd element out of {_lastnames::*}%"
+						set {_rpname} to "%{_firstname}% %{_lastname}%"
+		
+			set {_roll.%UUID of player%} to a random integer between 0 and {_number}
+			loop players in radius 15 around block at location of player:
+				send "&e%{_rpname}% a fait un roll de &6%{_roll.%UUID of player%}% sur &6%{_number}%" to loop-player

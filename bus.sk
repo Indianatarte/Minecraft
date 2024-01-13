@@ -1,0 +1,139 @@
+on right click on entity:
+    if name of event-entity is "Bus":
+        create a gui with virtual chest inventory named "&7[&5RATD&7]" with 5 rows:
+            set {_slot} to 0
+            loop 54 times:
+                make gui slot {_slot} to black glass pane named " "
+                add 1 to {_slot}
+                
+            make gui slot 10 to emerald named "&cAéroport" with lore "&4➜ &7Prix : &b2.50 &7Dias":
+                if {bank.%uuid of player%} >= 2.50:
+                    loop players in radius 10 around block at location at 534, 71, -200 in world "world":
+                        if loop-player is player:
+                            send "&4&l[ERROR] &f Vous vous trouvez déjà à cette endroit!" to player
+                            set {_verif} to false
+                    if {_verif} isn't set:
+                        remove 2.50 from {bank.%uuid of player%}
+                        apply potion of blindness without particles to player for 3 second
+                        play sound "vehicle:mini_bus_engine_stereo" with volume 1 and pitch 1 to player
+                        wait 2 second
+                        teleport player to location at 534, 71, -200 in world "world"
+
+                else:
+                    send "&4&l[ERROR] &fVous n'avez pas assez de Dias sur votre Compte Courant!"
+            
+            make gui slot 12 to emerald named "&5Boite de nuit" with lore "&4➜ &7Prix : &b2.50 &7Dias":
+                if {bank.%uuid of player%} >= 2.50:
+                    loop players in radius 10 around block at location at 258, 72, -143 in world "world":
+                        if loop-player is player:
+                            send "&4&l[ERROR] &f Vous vous trouvez déjà à cette endroit!" to player
+                            set {_verif} to false
+                    if {_verif} isn't set:
+                        remove 2.50 from {bank.%uuid of player%}
+                        apply potion of blindness without particles to player for 3 second
+                        play sound "vehicle:mini_bus_engine_stereo" with volume 1 and pitch 1 to player
+                        wait 2 second
+                        teleport player to location at 258, 72, -143 in world "world"
+
+                else:
+                    send "&4&l[ERROR] &fVous n'avez pas assez de Dias sur votre Compte Courant!"
+            
+            make gui slot 14 to emerald named "&dHospital" with lore "&4➜ &7Prix : &b2.50 &7Dias":
+                if {bank.%uuid of player%} >= 2.50:
+                    loop players in radius 10 around block at location at 345, 73, 5 in world "world":
+                        if loop-player is player:
+                            send "&4&l[ERROR] &f Vous vous trouvez déjà à cette endroit!" to player
+                            set {_verif} to false
+                    if {_verif} isn't set:
+                        remove 2.50 from {bank.%uuid of player%}
+                        apply potion of blindness without particles to player for 3 second
+                        play sound "vehicle:mini_bus_engine_stereo" with volume 1 and pitch 1 to player
+                        wait 2 second
+                        teleport player to location at 345, 73, 5 in world "world"
+
+                else:
+                    send "&4&l[ERROR] &fVous n'avez pas assez de Dias sur votre Compte Courant!"
+            
+            make gui slot 16 to emerald named "&eEglise" with lore "&4➜ &7Prix : &b2.50 &7Dias":
+                if {bank.%uuid of player%} >= 2.50:
+                    loop players in radius 10 around block at location at -249, 73, 9  in world "world":
+                        if loop-player is player:
+                            send "&4&l[ERROR] &f Vous vous trouvez déjà à cette endroit!" to player
+                            set {_verif} to false
+                    if {_verif} isn't set:
+                        remove 2.50 from {bank.%uuid of player%}
+                        apply potion of blindness without particles to player for 3 second
+                        play sound "vehicle:mini_bus_engine_stereo" with volume 1 and pitch 1 to player
+                        wait 2 second
+                        teleport player to location at -249, 73, 9  in world "world"
+
+                else:
+                    send "&4&l[ERROR] &fVous n'avez pas assez de Dias sur votre Compte Courant!"
+            
+
+            make gui slot 28 to emerald named "&1Karting" with lore "&4➜ &7Prix : &b2.50 &7Dias":
+                if {bank.%uuid of player%} >= 2.50:
+                    loop players in radius 10 around block at location at 447, 69, 220  in world "world":
+                        if loop-player is player:
+                            send "&4&l[ERROR] &f Vous vous trouvez déjà à cette endroit!" to player
+                            set {_verif} to false
+                    if {_verif} isn't set:
+                        remove 2.50 from {bank.%uuid of player%}
+                        apply potion of blindness without particles to player for 3 second
+                        play sound "vehicle:mini_bus_engine_stereo" with volume 1 and pitch 1 to player
+                        wait 2 second
+                        teleport player to location at 447, 69, 220  in world "world"
+
+                else:
+                    send "&4&l[ERROR] &fVous n'avez pas assez de Dias sur votre Compte Courant!"
+
+            make gui slot 30 to emerald named "&3Gare routière" with lore "&4➜ &7Prix : &b2.50 &7Dias":
+                if {bank.%uuid of player%} >= 2.50:
+                    loop players in radius 10 around block at location at 156, 73, 10  in world "world":
+                        if loop-player is player:
+                            send "&4&l[ERROR] &f Vous vous trouvez déjà à cette endroit!" to player
+                            set {_verif} to false
+                    if {_verif} isn't set:
+                        remove 2.50 from {bank.%uuid of player%}
+                        apply potion of blindness without particles to player for 3 second
+                        play sound "vehicle:mini_bus_engine_stereo" with volume 1 and pitch 1 to player
+                        wait 2 second
+                        teleport player to location at 156, 73, 10  in world "world"
+
+                else:
+                    send "&4&l[ERROR] &fVous n'avez pas assez de Dias sur votre Compte Courant!"
+            
+            make gui slot 32 to emerald named "&aCentre commercial" with lore "&4➜ &7Prix : &b2.50 &7Dias":
+                if {bank.%uuid of player%} >= 2.50:
+                    loop players in radius 10 around block at location at -222, 73, 218  in world "world":
+                        if loop-player is player:
+                            send "&4&l[ERROR] &f Vous vous trouvez déjà à cette endroit!" to player
+                            set {_verif} to false
+                    if {_verif} isn't set:
+                        remove 2.50 from {bank.%uuid of player%}
+                        apply potion of blindness without particles to player for 3 second
+                        play sound "vehicle:mini_bus_engine_stereo" with volume 1 and pitch 1 to player
+                        wait 2 second
+                        teleport player to location at -222, 73, 218  in world "world"
+
+                else:
+                    send "&4&l[ERROR] &fVous n'avez pas assez de Dias sur votre Compte Courant!"
+
+            make gui slot 34 to emerald named "&6Ecole" with lore "&4➜ &7Prix : &b2.50 &7Dias":
+                if {bank.%uuid of player%} >= 2.50:
+                    loop players in radius 10 around block at location at -364, 70, 159  in world "world":
+                        if loop-player is player:
+                            send "&4&l[ERROR] &f Vous vous trouvez déjà à cette endroit!" to player
+                            set {_verif} to false
+                    if {_verif} isn't set:
+                        remove 2.50 from {bank.%uuid of player%}
+                        apply potion of blindness without particles to player for 3 second
+                        play sound "vehicle:mini_bus_engine_stereo" with volume 1 and pitch 1 to player
+                        wait 2 second
+                        teleport player to location at -364, 70, 159  in world "world"
+                    
+                else:
+                    send "&4&l[ERROR] &fVous n'avez pas assez de Dias sur votre Compte Courant!"
+
+        show the last gui to the player
+
